@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ORA - Influencer Rate Calculator & Business Tool</title>
+  <meta name="description" content="ORA helps influencers and creators calculate fair rates, manage collaborations, and grow their business with smart analytics and professional tools.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            dark: '#000000',
+            light: '#ffffff',
+            subtle: 'rgba(255,255,255,0.1)',
+            ora: '#3B82F6'
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #3B82F6, #8B5CF6, #10B981);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .floating {
+      animation: floating 6s ease-in-out infinite;
+    }
+    @keyframes floating {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+    .pulse-glow {
+      animation: pulse-glow 2s ease-in-out infinite alternate;
+    }
+    @keyframes pulse-glow {
+      from { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+      to { box-shadow: 0 0 40px rgba(59, 130, 246, 0.6); }
+    }
+    #liquid-container {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+      touch-action: none;
+    }
+  </style>
+</head>
+<body class="bg-black text-white font-sans overflow-x-hidden">
+  <div class="relative min-h-screen">
+    <!-- Animated background -->
+    <div class="fixed inset-0 z-0">
+      <div class="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-green-900/20"></div>
+      <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl floating"></div>
+      <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl floating" style="animation-delay: -3s;"></div>
+      <div class="absolute top-1/2 left-1/2 w-64 h-64 bg-green-500/10 rounded-full blur-3xl floating" style="animation-delay: -1.5s;"></div>
+    </div>
+    
+    <!-- Glass floating navbar -->
+    <nav class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 glass-effect rounded-full px-6 py-3 shadow-xl">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+            <span class="text-white font-bold text-lg">O</span>
+          </div>
+          <span class="ml-3 text-lg font-semibold">ORA</span>
+        </div>
+        <div class="hidden md:flex items-center space-x-8 text-sm text-gray-300">
+          <a href="#features" class="hover:text-white transition-colors">Features</a>
+          <a href="#pricing" class="hover:text-white transition-colors">Pricing</a>
+          <a href="#about" class="hover:text-white transition-colors">About</a>
+          <a href="#contact" class="hover:text-white transition-colors">Contact</a>
+        </div>
+        <div class="flex items-center space-x-4">
+          <a href="#contact" class="hidden md:inline-block text-sm font-medium hover:text-white transition-colors">Login</a>
+          <a href="#pricing" class="bg-white text-black px-6 py-2 rounded-full text-sm font-medium hover:bg-gray-200 transition-all duration-300 shadow-lg hover:shadow-xl">Get Started</a>
+        </div>
+      </div>
+    </nav>
+    
+    <!-- Hero section with 3D Liquid Animation -->
+    <section id="home" class="relative z-10 min-h-screen flex items-center">
+      <div class="max-w-7xl mx-auto px-6 w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <!-- Left content -->
+          <div class="space-y-8">
+            <div class="inline-flex items-center px-4 py-2 glass-effect rounded-full border border-white/10">
+              <span class="text-sm font-medium text-white">Influencer Business Tool</span>
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl leading-none font-medium tracking-tight">
+              Smart Rate
+              <span class="gradient-text">Calculator</span>
+              for Creators
+            </h1>
+            
+            <p class="text-xl text-neutral-300 max-w-lg leading-relaxed">
+              Calculate fair rates, manage collaborations, and grow your influencer business with professional tools and real-time analytics.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 pt-4">
+              <a href="#pricing" class="px-8 py-4 bg-white text-black font-medium rounded-full hover:bg-gray-200 transition-all duration-300 shadow-lg hover:shadow-xl text-center pulse-glow">
+                Start Calculating Rates
+              </a>
+              <a href="#features" class="px-8 py-4 glass-effect text-white font-medium rounded-full hover:bg-white/20 transition-all duration-300 border border-white/10 text-center">
+                View Features
+              </a>
+            </div>
+            
+            <div class="pt-8 space-y-4">
+              <div class="text-sm text-neutral-400">
+                Trusted by 10,000+ Creators
+              </div>
+              <div class="flex flex-wrap gap-3">
+                <span class="px-3 py-1 text-xs glass-effect rounded-full border border-white/10">TikTok Analytics</span>
+                <span class="px-3 py-1 text-xs glass-effect rounded-full border border-white/10">Instagram Insights</span>
+                <span class="px-3 py-1 text-xs glass-effect rounded-full border border-white/10">YouTube Data</span>
+                <span class="px-3 py-1 text-xs glass-effect rounded-full border border-white/10">Rate Calculator</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Right side - 3D Liquid Animation -->
+          <div class="hidden lg:block relative">
+            <div id="liquid-container" style="width: 100%; height: 600px; position: relative;">
+              <!-- 3D animation will be rendered here -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features section -->
+    <section id="features" class="relative z-10 py-24">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-5xl font-medium mb-6">
+            Everything You Need to
+            <span class="gradient-text">Succeed</span>
+          </h2>
+          <p class="text-xl text-neutral-300 max-w-2xl mx-auto">
+            Professional tools designed specifically for influencers and content creators
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div class="glass-effect rounded-2xl p-8 hover:bg-white/10 transition-all duration-300">
+            <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-6">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold mb-4">Smart Rate Calculator</h3>
+            <p class="text-gray-300 mb-6">Get accurate rate suggestions based on your follower count, engagement, and platform performance.</p>
+            <ul class="space-y-2 text-sm text-gray-400">
+              <li>• Real-time follower analysis</li>
+              <li>• Engagement rate calculations</li>
+              <li>• Platform-specific pricing</li>
+            </ul>
+          </div>
+          
+          <div class="glass-effect rounded-2xl p-8 hover:bg-white/10 transition-all duration-300">
+            <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mb-6">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold mb-4">Analytics Dashboard</h3>
+            <p class="text-gray-300 mb-6">Track your performance across TikTok, Instagram, YouTube, and more in one place.</p>
+            <ul class="space-y-2 text-sm text-gray-400">
+              <li>• Cross-platform insights</li>
+              <li>• Growth tracking</li>
+              <li>• Performance metrics</li>
+            </ul>
+          </div>
+          
+          <div class="glass-effect rounded-2xl p-8 hover:bg-white/10 transition-all duration-300">
+            <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center mb-6">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold mb-4">Collaboration Manager</h3>
+            <p class="text-gray-300 mb-6">Organize and track all your brand partnerships and collaboration opportunities.</p>
+            <ul class="space-y-2 text-sm text-gray-400">
+              <li>• Brand partnership tracking</li>
+              <li>• Payment management</li>
+              <li>• Deadline reminders</li>
+            </ul>
+          </div>
+          
+          <div class="glass-effect rounded-2xl p-8 hover:bg-white/10 transition-all duration-300">
+            <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mb-6">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold mb-4">Media Kit Generator</h3>
+            <p class="text-gray-300 mb-6">Create professional media kits that showcase your value to potential brand partners.</p>
+            <ul class="space-y-2 text-sm text-gray-400">
+              <li>• Automated media kit creation</li>
+              <li>• Brand-ready templates</li>
+              <li>• Performance highlights</li>
+            </ul>
+          </div>
+          
+          <div class="glass-effect rounded-2xl p-8 hover:bg-white/10 transition-all duration-300">
+            <div class="w-12 h-12 bg-gradient-to-br from-pink-500 to-pink-600 rounded-xl flex items-center justify-center mb-6">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold mb-4">Revenue Tracking</h3>
+            <p class="text-gray-300 mb-6">Monitor your earnings and financial growth with detailed revenue analytics.</p>
+            <ul class="space-y-2 text-sm text-gray-400">
+              <li>• Income tracking</li>
+              <li>• Payment history</li>
+              <li>• Financial insights</li>
+            </ul>
+          </div>
+          
+          <div class="glass-effect rounded-2xl p-8 hover:bg-white/10 transition-all duration-300">
+            <div class="w-12 h-12 bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-xl flex items-center justify-center mb-6">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold mb-4">Secure & Private</h3>
+            <p class="text-gray-300 mb-6">Your data is protected with enterprise-grade security and privacy controls.</p>
+            <ul class="space-y-2 text-sm text-gray-400">
+              <li>• End-to-end encryption</li>
+              <li>• GDPR compliant</li>
+              <li>• Data ownership</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing section -->
+    <section id="pricing" class="relative z-10 py-24">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-5xl font-medium mb-6">
+            Simple, Transparent
+            <span class="gradient-text">Pricing</span>
+          </h2>
+          <p class="text-xl text-neutral-300 max-w-2xl mx-auto">
+            Choose the plan that fits your creator journey
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <!-- Starter Plan -->
+          <div class="glass-effect rounded-2xl p-8">
+            <div class="text-center mb-8">
+              <h3 class="text-2xl font-semibold mb-4">Starter</h3>
+              <div class="text-4xl font-bold mb-2">Free</div>
+              <p class="text-gray-400">Perfect for getting started</p>
+            </div>
+            <ul class="space-y-4 mb-8">
+              <li class="flex items-center">
+                <span class="text-green-400 mr-3">✓</span>
+                <span>Basic rate calculator</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-green-400 mr-3">✓</span>
+                <span>Up to 3 social accounts</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-green-400 mr-3">✓</span>
+                <span>Basic analytics</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-green-400 mr-3">✓</span>
+                <span>5 collaborations</span>
+              </li>
+            </ul>
+            <button class="w-full py-3 glass-effect rounded-xl font-medium hover:bg-white/20 transition-all duration-300">
+              Get Started
+            </button>
+          </div>
+          
+          <!-- Pro Plan -->
+          <div class="glass-effect rounded-2xl p-8 border-2 border-blue-500/50 relative">
+            <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+              <span class="bg-blue-500 text-white px-4 py-1 rounded-full text-sm font-medium">Most Popular</span>
+            </div>
+            <div class="text-center mb-8">
+              <h3 class="text-2xl font-semibold mb-4">Pro</h3>
+              <div class="text-4xl font-bold mb-2">$19<span class="text-lg text-gray-400">/month</span></div>
+              <p class="text-gray-400">For serious creators</p>
+            </div>
+            <ul class="space-y-4 mb-8">
+              <li class="flex items-center">
+                <span class="text-green-400 mr-3">✓</span>
+                <span>Advanced rate calculator</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-green-400 mr-3">✓</span>
+                <span>Unlimited social accounts</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-green-400 mr-3">✓</span>
+                <span>Detailed analytics</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-green-400 mr-3">✓</span>
+                <span>Unlimited collaborations</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-green-400 mr-3">✓</span>
+                <span>Media kit generator</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-green-400 mr-3">✓</span>
+                <span>Revenue tracking</span>
+              </li>
+            </ul>
+            <button class="w-full py-3 bg-white text-black rounded-xl font-medium hover:bg-gray-200 transition-all duration-300">
+              Start Pro Trial
+            </button>
+          </div>
+          
+          <!-- Enterprise Plan -->
+          <div class="glass-effect rounded-2xl p-8">
+            <div class="text-center mb-8">
+              <h3 class="text-2xl font-semibold mb-4">Enterprise</h3>
+              <div class="text-4xl font-bold mb-2">$49<span class="text-lg text-gray-400">/month</span></div>
+              <p class="text-gray-400">For agencies & teams</p>
+            </div>
+            <ul class="space-y-4 mb-8">
+              <li class="flex items-center">
+                <span class="text-green-400 mr-3">✓</span>
+                <span>Everything in Pro</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-green-400 mr-3">✓</span>
+                <span>Team management</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-green-400 mr-3">✓</span>
+                <span>White-label options</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-green-400 mr-3">✓</span>
+                <span>Priority support</span>
+              </li>
+              <li class="flex items-center">
+                <span class="text-green-400 mr-3">✓</span>
+                <span>Custom integrations</span>
+              </li>
+            </ul>
+            <button class="w-full py-3 glass-effect rounded-xl font-medium hover:bg-white/20 transition-all duration-300">
+              Contact Sales
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About section -->
+    <section id="about" class="relative z-10 py-24">
+      <div class="max-w-4xl mx-auto px-6 text-center">
+        <h2 class="text-4xl md:text-5xl font-medium mb-8">
+          About <span class="gradient-text">ORA</span>
+        </h2>
+        <p class="text-xl text-neutral-300 leading-relaxed mb-12">
+          ORA is a smart rate calculator and business tool made for influencers and content creators. 
+          We help you understand your market value, set fair rates, and manage your collaborations confidently.
+        </p>
+        <p class="text-lg text-neutral-400 leading-relaxed">
+          Whether you're just starting out or managing multiple brands, ORA helps you stay in control of your creative business.
+        </p>
+      </div>
+    </section>
+
+    <!-- Contact section -->
+    <section id="contact" class="relative z-10 py-24">
+      <div class="max-w-4xl mx-auto px-6">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-5xl font-medium mb-6">
+            Get in <span class="gradient-text">Touch</span>
+          </h2>
+          <p class="text-xl text-neutral-300">
+            Have questions? We're here to help.
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <div class="space-y-8">
+            <div class="glass-effect rounded-2xl p-8">
+              <h3 class="text-xl font-semibold mb-4">Contact Information</h3>
+              <div class="space-y-4">
+                <div class="flex items-center">
+                  <svg class="w-6 h-6 mr-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                  </svg>
+                  <div>
+                    <div class="font-medium">Email Support</div>
+                    <div class="text-gray-400">official.myora.co@outlook.com</div>
+                  </div>
+                </div>
+                <div class="flex items-center">
+                  <svg class="w-6 h-6 mr-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                  </svg>
+                  <div>
+                    <div class="font-medium">Live Chat</div>
+                    <div class="text-gray-400">Available 24/7</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="glass-effect rounded-2xl p-8">
+            <h3 class="text-xl font-semibold mb-6">Send us a message</h3>
+            <form class="space-y-4">
+              <div>
+                <input type="text" placeholder="Your name" class="w-full px-4 py-3 glass-effect rounded-xl border border-white/10 focus:border-blue-500 focus:outline-none transition-colors">
+              </div>
+              <div>
+                <input type="email" placeholder="Your email" class="w-full px-4 py-3 glass-effect rounded-xl border border-white/10 focus:border-blue-500 focus:outline-none transition-colors">
+              </div>
+              <div>
+                <textarea placeholder="Your message" rows="4" class="w-full px-4 py-3 glass-effect rounded-xl border border-white/10 focus:border-blue-500 focus:outline-none transition-colors resize-none"></textarea>
+              </div>
+              <button type="submit" class="w-full py-3 bg-white text-black rounded-xl font-medium hover:bg-gray-200 transition-all duration-300">
+                Send Message
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-10 py-12 border-t border-white/10">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <div class="flex items-center mb-4">
+              <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                <span class="text-white font-bold text-lg">O</span>
+              </div>
+              <span class="ml-3 text-lg font-semibold">ORA</span>
+            </div>
+            <p class="text-gray-400 text-sm">
+              The smart rate calculator for influencers and content creators.
+            </p>
+          </div>
+          
+          <div>
+            <h4 class="font-semibold mb-4">Product</h4>
+            <ul class="space-y-2 text-sm text-gray-400">
+              <li><a href="#features" class="hover:text-white transition-colors">Features</a></li>
+              <li><a href="#pricing" class="hover:text-white transition-colors">Pricing</a></li>
+              <li><a href="#" class="hover:text-white transition-colors">API</a></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 class="font-semibold mb-4">Company</h4>
+            <ul class="space-y-2 text-sm text-gray-400">
+              <li><a href="#about" class="hover:text-white transition-colors">About</a></li>
+              <li><a href="#contact" class="hover:text-white transition-colors">Contact</a></li>
+              <li><a href="/privacy" class="hover:text-white transition-colors">Privacy</a></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 class="font-semibold mb-4">Legal</h4>
+            <ul class="space-y-2 text-sm text-gray-400">
+              <li><a href="/privacy" class="hover:text-white transition-colors">Privacy Policy</a></li>
+              <li><a href="/terms" class="hover:text-white transition-colors">Terms of Service</a></li>
+              <li><a href="/cookies" class="hover:text-white transition-colors">Cookie Policy</a></li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="border-t border-white/10 mt-8 pt-8 text-center text-sm text-gray-400">
+          <p>&copy; 2024 ORA. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // 3D Liquid Animation
+    let scene, camera, renderer, liquidMesh;
+    let mouseX = 0, mouseY = 0;
+    let time = 0;
+
+    function init3D() {
+      const container = document.getElementById('liquid-container');
+      if (!container) return;
+
+      // Scene setup
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(container.clientWidth, container.clientHeight);
+      renderer.setClearColor(0x000000, 0);
+      container.appendChild(renderer.domElement);
+
+      // Create liquid-like geometry
+      const geometry = new THREE.SphereGeometry(2, 64, 64);
+      
+      // Create shader material for liquid effect
+      const material = new THREE.ShaderMaterial({
+        uniforms: {
+          time: { value: 0 },
+          mouse: { value: new THREE.Vector2(0, 0) },
+          color1: { value: new THREE.Color(0x3B82F6) },
+          color2: { value: new THREE.Color(0x8B5CF6) },
+          color3: { value: new THREE.Color(0x10B981) }
+        },
+        vertexShader: `
+          uniform float time;
+          uniform vec2 mouse;
+          varying vec2 vUv;
+          varying vec3 vPosition;
+          varying vec3 vNormal;
+          
+          void main() {
+            vUv = uv;
+            vPosition = position;
+            vNormal = normal;
+            
+            vec3 pos = position;
+            
+            // Wave distortion
+            float wave1 = sin(pos.x * 3.0 + time * 2.0) * 0.1;
+            float wave2 = sin(pos.y * 2.0 + time * 1.5) * 0.1;
+            float wave3 = sin(pos.z * 4.0 + time * 2.5) * 0.1;
+            
+            pos += normal * (wave1 + wave2 + wave3);
+            
+            // Mouse interaction
+            float mouseInfluence = 1.0 - distance(pos.xy, mouse) * 0.5;
+            pos += normal * mouseInfluence * 0.3;
+            
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+          }
+        `,
+        fragmentShader: `
+          uniform float time;
+          uniform vec2 mouse;
+          uniform vec3 color1;
+          uniform vec3 color2;
+          uniform vec3 color3;
+          varying vec2 vUv;
+          varying vec3 vPosition;
+          varying vec3 vNormal;
+          
+          void main() {
+            vec3 color = mix(color1, color2, sin(vUv.x * 3.0 + time) * 0.5 + 0.5);
+            color = mix(color, color3, sin(vUv.y * 2.0 + time * 1.5) * 0.5 + 0.5);
+            
+            // Fresnel effect
+            float fresnel = 1.0 - abs(dot(vNormal, vec3(0.0, 0.0, 1.0)));
+            fresnel = pow(fresnel, 2.0);
+            
+            color += fresnel * 0.5;
+            
+            // Mouse highlight
+            float mouseDist = distance(vUv, mouse);
+            float mouseEffect = 1.0 - smoothstep(0.0, 0.3, mouseDist);
+            color += mouseEffect * 0.8;
+            
+            gl_FragColor = vec4(color, 0.8);
+          }
+        `,
+        transparent: true,
+        side: THREE.DoubleSide
+      });
+
+      liquidMesh = new THREE.Mesh(geometry, material);
+      scene.add(liquidMesh);
+
+      camera.position.z = 5;
+
+      // Mouse interaction
+      container.addEventListener('mousemove', (event) => {
+        const rect = container.getBoundingClientRect();
+        mouseX = (event.clientX - rect.left) / rect.width;
+        mouseY = (event.clientY - rect.top) / rect.height;
+        material.uniforms.mouse.value.set(mouseX, mouseY);
+      });
+
+      // Animation loop
+      function animate() {
+        requestAnimationFrame(animate);
+        
+        time += 0.01;
+        material.uniforms.time.value = time;
+        
+        liquidMesh.rotation.x = time * 0.5;
+        liquidMesh.rotation.y = time * 0.3;
+        liquidMesh.position.y = Math.sin(time) * 0.2;
+        
+        renderer.render(scene, camera);
+      }
+      
+      animate();
+
+      // Handle resize
+      window.addEventListener('resize', () => {
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, container.clientHeight);
+      });
+    }
+
+    // Initialize 3D when page loads
+    document.addEventListener('DOMContentLoaded', init3D);
+
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Add scroll effect to navbar
+    window.addEventListener('scroll', () => {
+      const nav = document.querySelector('nav');
+      if (window.scrollY > 100) {
+        nav.style.background = 'rgba(255, 255, 255, 0.1)';
+      } else {
+        nav.style.background = 'rgba(255, 255, 255, 0.05)';
+      }
+    });
+  </script>
+</body>
+</html>
