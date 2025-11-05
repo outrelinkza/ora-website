@@ -1,0 +1,40 @@
+{
+  "rewrites": [
+    {
+      "source": "/privacy-policy",
+      "destination": "/privacy.html"
+    },
+    {
+      "source": "/terms-of-service",
+      "destination": "/terms.html"
+    },
+    {
+      "source": "/api/(.*)",
+      "destination": "https://backend-oavi7gom6-outrelinkxx.vercel.app/api/$1"
+    },
+    {
+      "source": "/webhook",
+      "destination": "https://backend-oavi7gom6-outrelinkxx.vercel.app/webhook"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
+    }
+  ]
+}
+
