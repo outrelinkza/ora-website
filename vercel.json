@@ -9,12 +9,8 @@
       "destination": "/terms.html"
     },
     {
-      "source": "/api/(.*)",
-      "destination": "https://backend-3a4vpg6z4-outrelinkxx.vercel.app/api/$1"
-    },
-    {
       "source": "/webhook",
-      "destination": "https://backend-3a4vpg6z4-outrelinkxx.vercel.app/webhook"
+      "destination": "/api/webhook"
     }
   ],
   "headers": [
