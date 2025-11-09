@@ -98,3 +98,102 @@
     </div>
 </body>
 </html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OAuth Testing - ORA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen antialiased text-white bg-black">
+    <!-- Background Grid -->
+    <div class="fixed inset-0 opacity-20" style="background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0); background-size: 24px 24px;"></div>
+
+    <!-- Main Container -->
+    <div class="relative z-10 min-h-screen">
+        
+        <!-- Nav -->
+        <nav class="fixed top-0 left-0 right-0 z-50 px-6 py-6">
+            <div class="max-w-4xl mx-auto glass-effect rounded-full px-6 py-3">
+                <div class="flex items-center justify-between">
+                    <a href="/" class="flex items-center hover:opacity-80 transition-opacity">
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg">
+                            <img src="Adobe Express - file-2.png" alt="ORA Logo" class="w-12 h-12 object-cover rounded-xl">
+                        </div>
+                        <span class="ml-3 text-lg font-semibold tracking-tight text-white font-sans">ORA</span>
+                    </a>
+                    <a href="/" class="text-sm font-medium hover:text-white transition-colors">← Back to Home</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Content -->
+        <section class="pt-32 pb-20">
+            <div class="max-w-3xl mx-auto px-6">
+                <div class="glass-effect rounded-2xl p-12">
+                    <h1 class="text-4xl font-bold mb-2">OAuth Testing</h1>
+                    <p class="text-gray-400 mb-8">Google OAuth verification testing instructions</p>
+
+                    <div class="space-y-8">
+                        <!-- Direct OAuth URL -->
+                        <div>
+                            <h2 class="text-2xl font-semibold mb-4">Test OAuth Flow</h2>
+                            <div class="bg-gray-800 rounded-lg p-6 mb-4">
+                                <a href="https://accounts.google.com/o/oauth2/v2/auth?client_id=389124746401-70ht7non8183n0ags7m1mma8d0cumdb7.apps.googleusercontent.com&redirect_uri=https://myora.co/oauth/callback&response_type=code&scope=https://www.googleapis.com/auth/gmail.readonly%20https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile&access_type=offline&prompt=consent" 
+                                   target="_blank" 
+                                   class="inline-block w-full py-4 px-6 rounded-xl text-base font-semibold text-white border border-orange-500/30 hover:border-orange-500/50 transition-all duration-300 text-center" 
+                                   style="background: rgba(249, 115, 22, 0.15);">
+                                    Test OAuth Consent Screen
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Test Account Requirements -->
+                        <div>
+                            <h2 class="text-2xl font-semibold mb-4">Test Account Requirements</h2>
+                            <div class="bg-gray-800 rounded-lg p-6">
+                                <ul class="space-y-2 text-gray-300">
+                                    <li>• Test account must be added in Google Cloud Console (OAuth consent screen → Test users)</li>
+                                    <li>• 2FA must be disabled on the test account</li>
+                                    <li>• Account must have Gmail access</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- OAuth Scopes -->
+                        <div>
+                            <h2 class="text-2xl font-semibold mb-4">Requested Permissions</h2>
+                            <div class="bg-gray-800 rounded-lg p-6">
+                                <ul class="space-y-2 text-gray-300">
+                                    <li>• Gmail read-only access</li>
+                                    <li>• User email address</li>
+                                    <li>• Basic profile information</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Support -->
+                        <div>
+                            <h2 class="text-2xl font-semibold mb-4">Support</h2>
+                            <div class="bg-gray-800 rounded-lg p-4">
+                                <p class="text-gray-300">
+                                    <strong>Email:</strong> official.myora.co@outlook.com
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

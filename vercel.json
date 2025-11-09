@@ -31,6 +31,14 @@
     {
       "source": "/webhook",
       "destination": "/api/webhook"
+    },
+    {
+      "source": "/admin",
+      "destination": "/admin.html"
+    },
+    {
+      "source": "/api/admin/:path*",
+      "destination": "/api/admin/:path*"
     }
   ],
   "headers": [

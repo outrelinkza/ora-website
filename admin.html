@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORA Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #FF6A00 0%, #FF8C42 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .auth-section {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 400px;
+            margin: 100px auto;
+        }
+
+        .auth-section input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            font-size: 14px;
+        }
+
+        .auth-section button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            background: linear-gradient(135deg, #FF6A00 0%, #FF8C42 100%);
+            border: none;
+            border-radius: 8px;
+            color: #ffffff;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .auth-section button:hover {
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .tab:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #FF6A00 0%, #FF8C42 100%);
+            border-color: #FF6A00;
+        }
+
+        .content {
+            display: none;
+        }
+
+        .content.active {
+            display: block;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-card h3 {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-card .value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #FF6A00;
+            margin-bottom: 8px;
+        }
+
+        .stat-card .label {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .table-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        th {
+            font-weight: 600;
+            color: #FF6A00;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            color: #ffffff;
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, #FF6A00 0%, #FF8C42 100%);
+            border-color: #FF6A00;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .error {
+            background: rgba(255, 59, 48, 0.1);
+            border: 1px solid rgba(255, 59, 48, 0.3);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+            color: #ff3b30;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge.rate {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .badge.bug {
+            background: rgba(255, 59, 48, 0.2);
+            color: #ff3b30;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state svg {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Auth Section (shown when not authenticated) -->
+        <div id="authSection" class="auth-section">
+            <h2>Admin Login</h2>
+            <input type="password" id="adminPassword" placeholder="Enter admin password" />
+            <button onclick="authenticate()">Login</button>
+            <p id="authError" style="color: #ff3b30; margin-top: 10px; display: none;"></p>
+        </div>
+
+        <!-- Main Dashboard (shown when authenticated) -->
+        <div id="dashboard" style="display: none;">
+            <div class="header">
+                <h1>ORA Admin Dashboard</h1>
+                <button onclick="logout()" style="padding: 8px 16px; background: rgba(255, 59, 48, 0.2); border: 1px solid rgba(255, 59, 48, 0.3); border-radius: 8px; color: #ff3b30; cursor: pointer;">Logout</button>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('overview')">Overview</div>
+                <div class="tab" onclick="switchTab('submissions')">Submissions</div>
+                <div class="tab" onclick="switchTab('analytics')">Analytics</div>
+                <div class="tab" onclick="switchTab('errors')">Errors</div>
+            </div>
+
+            <!-- Overview Tab -->
+            <div id="overview" class="content active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Rate Submissions</h3>
+                        <div class="value" id="rateSubmissionsCount">-</div>
+                        <div class="label">Total submissions</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Bug Reports</h3>
+                        <div class="value" id="bugReportsCount">-</div>
+                        <div class="label">Total reports</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Active Users</h3>
+                        <div class="value" id="activeUsersCount">-</div>
+                        <div class="label">Unique users</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Submissions</h3>
+                        <div class="value" id="totalSubmissionsCount">-</div>
+                        <div class="label">All submissions</div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <h3 style="margin-bottom: 20px; color: #FF6A00;">Recent Activity</h3>
+                    <div id="recentActivity">
+                        <div class="loading">Loading...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submissions Tab -->
+            <div id="submissions" class="content">
+                <div class="filter-bar">
+                    <div class="filter-btn active" onclick="filterSubmissions('all')">All</div>
+                    <div class="filter-btn" onclick="filterSubmissions('rates')">Rate Submissions</div>
+                    <div class="filter-btn" onclick="filterSubmissions('bugs')">Bug Reports</div>
+                </div>
+                <div class="table-container">
+                    <div id="submissionsList">
+                        <div class="loading">Loading...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Tab -->
+            <div id="analytics" class="content">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Users</h3>
+                        <div class="value" id="totalUsers">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Paid Users</h3>
+                        <div class="value" id="paidUsers">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Subscription Revenue</h3>
+                        <div class="value" id="subscriptionRevenue">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Conversion Rate</h3>
+                        <div class="value" id="conversionRate">-</div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <h3 style="margin-bottom: 20px; color: #FF6A00;">Platform Distribution</h3>
+                    <div id="platformDistribution">
+                        <div class="loading">Loading...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Errors Tab -->
+            <div id="errors" class="content">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Errors</h3>
+                        <div class="value" id="totalErrors">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Critical Errors</h3>
+                        <div class="value" id="criticalErrors" style="color: #ff3b30;">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Resolved</h3>
+                        <div class="value" id="resolvedErrors" style="color: #10b981;">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Unresolved</h3>
+                        <div class="value" id="unresolvedErrors" style="color: #f59e0b;">-</div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <h3 style="margin-bottom: 20px; color: #FF6A00;">Recent Errors</h3>
+                    <div id="errorsList">
+                        <div class="loading">Loading...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Admin password (in production, use environment variable)
+        const ADMIN_PASSWORD = 'ora_admin_2025';
+        let currentFilter = 'all';
+
+        // Check if already authenticated
+        if (localStorage.getItem('admin_authenticated') === 'true' && localStorage.getItem('admin_token')) {
+            showDashboard();
+        }
+
+        async function authenticate() {
+            const password = document.getElementById('adminPassword').value;
+            const errorEl = document.getElementById('authError');
+            
+            if (password === ADMIN_PASSWORD) {
+                // Get admin token from backend
+                try {
+                    const response = await fetch('/api/admin/auth', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ password })
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        localStorage.setItem('admin_authenticated', 'true');
+                        localStorage.setItem('admin_token', data.token || ADMIN_PASSWORD);
+                        showDashboard();
+                        errorEl.style.display = 'none';
+                    } else {
+                        throw new Error('Authentication failed');
+                    }
+                } catch (error) {
+                    // Fallback: use password as token for local testing
+                    localStorage.setItem('admin_authenticated', 'true');
+                    localStorage.setItem('admin_token', ADMIN_PASSWORD);
+                    showDashboard();
+                    errorEl.style.display = 'none';
+                }
+            } else {
+                errorEl.textContent = 'Invalid password';
+                errorEl.style.display = 'block';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('admin_authenticated');
+            localStorage.removeItem('admin_token');
+            document.getElementById('authSection').style.display = 'block';
+            document.getElementById('dashboard').style.display = 'none';
+        }
+
+        function showDashboard() {
+            document.getElementById('authSection').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            loadAllData();
+        }
+
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Update content
+            document.querySelectorAll('.content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+
+            // Load data for the tab
+            if (tabName === 'submissions') {
+                loadSubmissions();
+            } else if (tabName === 'analytics') {
+                loadAnalytics();
+            } else if (tabName === 'errors') {
+                loadErrors();
+            }
+        }
+
+        function filterSubmissions(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            loadSubmissions();
+        }
+
+        async function loadAllData() {
+            await Promise.all([
+                loadOverview(),
+                loadSubmissions(),
+                loadAnalytics(),
+                loadErrors()
+            ]);
+        }
+
+        async function loadOverview() {
+            try {
+                const adminToken = localStorage.getItem('admin_token') || '';
+                const response = await fetch(`/api/admin/overview?token=${adminToken}`);
+                const data = await response.json();
+
+                document.getElementById('rateSubmissionsCount').textContent = data.rateSubmissions || 0;
+                document.getElementById('bugReportsCount').textContent = data.bugReports || 0;
+                document.getElementById('activeUsersCount').textContent = data.activeUsers || 0;
+                document.getElementById('totalSubmissionsCount').textContent = data.totalSubmissions || 0;
+
+                // Render recent activity
+                const activityEl = document.getElementById('recentActivity');
+                if (data.recentActivity && data.recentActivity.length > 0) {
+                    activityEl.innerHTML = `
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Details</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.recentActivity.map(item => `
+                                    <tr>
+                                        <td><span class="badge ${item.type === 'rate_submission' ? 'rate' : 'bug'}">${item.type === 'rate_submission' ? 'Rate' : 'Bug'}</span></td>
+                                        <td>${item.details || 'N/A'}</td>
+                                        <td>${new Date(item.date).toLocaleString()}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    `;
+                } else {
+                    activityEl.innerHTML = '<div class="empty-state">No recent activity</div>';
+                }
+            } catch (error) {
+                console.error('Error loading overview:', error);
+                document.getElementById('recentActivity').innerHTML = '<div class="error">Failed to load overview data</div>';
+            }
+        }
+
+        async function loadSubmissions() {
+            try {
+                const adminToken = localStorage.getItem('admin_token') || '';
+                const response = await fetch(`/api/admin/submissions?filter=${currentFilter}&token=${adminToken}`);
+                const data = await response.json();
+
+                const submissionsEl = document.getElementById('submissionsList');
+                if (data.submissions && data.submissions.length > 0) {
+                    submissionsEl.innerHTML = `
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Details</th>
+                                    <th>User Email</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.submissions.map(sub => `
+                                    <tr>
+                                        <td><span class="badge ${sub.type === 'rate_submission' ? 'rate' : 'bug'}">${sub.type === 'rate_submission' ? 'Rate' : 'Bug'}</span></td>
+                                        <td>${sub.details || 'N/A'}</td>
+                                        <td>${sub.userEmail || 'N/A'}</td>
+                                        <td>${new Date(sub.submittedAt).toLocaleString()}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    `;
+                } else {
+                    submissionsEl.innerHTML = '<div class="empty-state">No submissions found</div>';
+                }
+            } catch (error) {
+                console.error('Error loading submissions:', error);
+                document.getElementById('submissionsList').innerHTML = '<div class="error">Failed to load submissions</div>';
+            }
+        }
+
+        async function loadAnalytics() {
+            try {
+                const adminToken = localStorage.getItem('admin_token') || '';
+                const response = await fetch(`/api/admin/analytics?token=${adminToken}`);
+                const data = await response.json();
+
+                document.getElementById('totalUsers').textContent = data.totalUsers || 0;
+                document.getElementById('paidUsers').textContent = data.paidUsers || 0;
+                document.getElementById('subscriptionRevenue').textContent = `$${data.subscriptionRevenue?.toFixed(0) || 0}`;
+                document.getElementById('conversionRate').textContent = `${data.conversionRate?.toFixed(1) || 0}%`;
+
+                // Platform distribution
+                const platformEl = document.getElementById('platformDistribution');
+                if (data.platformDistribution && Object.keys(data.platformDistribution).length > 0) {
+                    platformEl.innerHTML = `
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Platform</th>
+                                    <th>Submissions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${Object.entries(data.platformDistribution).map(([platform, count]) => `
+                                    <tr>
+                                        <td>${platform}</td>
+                                        <td>${count}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    `;
+                } else {
+                    platformEl.innerHTML = '<div class="empty-state">No platform data available</div>';
+                }
+            } catch (error) {
+                console.error('Error loading analytics:', error);
+            }
+        }
+
+        async function loadErrors() {
+            try {
+                const adminToken = localStorage.getItem('admin_token') || '';
+                const response = await fetch(`/api/admin/errors?token=${adminToken}`);
+                const data = await response.json();
+
+                document.getElementById('totalErrors').textContent = data.totalErrors || 0;
+                document.getElementById('criticalErrors').textContent = data.criticalErrors || 0;
+                document.getElementById('resolvedErrors').textContent = data.resolvedErrors || 0;
+                document.getElementById('unresolvedErrors').textContent = data.unresolvedErrors || 0;
+
+                // Errors list
+                const errorsEl = document.getElementById('errorsList');
+                if (data.errors && data.errors.length > 0) {
+                    errorsEl.innerHTML = `
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Message</th>
+                                    <th>Severity</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.errors.map(error => `
+                                    <tr>
+                                        <td>${error.type || 'N/A'}</td>
+                                        <td>${error.message || 'N/A'}</td>
+                                        <td><span class="badge" style="background: ${getSeverityColor(error.severity)}">${error.severity || 'N/A'}</span></td>
+                                        <td>${new Date(error.timestamp).toLocaleString()}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    `;
+                } else {
+                    errorsEl.innerHTML = '<div class="empty-state">No errors reported</div>';
+                }
+            } catch (error) {
+                console.error('Error loading errors:', error);
+            }
+        }
+
+        function getSeverityColor(severity) {
+            const colors = {
+                critical: 'rgba(255, 59, 48, 0.2)',
+                high: 'rgba(255, 107, 107, 0.2)',
+                medium: 'rgba(245, 158, 11, 0.2)',
+                low: 'rgba(16, 185, 129, 0.2)'
+            };
+            return colors[severity] || 'rgba(255, 255, 255, 0.1)';
+        }
+
+        // Auto-refresh every 30 seconds
+        setInterval(() => {
+            if (localStorage.getItem('admin_authenticated') === 'true') {
+                loadAllData();
+            }
+        }, 30000);
+    </script>
+
+    <!-- Vercel Analytics -->
+    <script src="https://va.vercel-scripts.com/v1/script.js" defer></script>
+
+    <!-- Vercel Speed Insights -->
+    <script src="https://va.vercel-scripts.com/v1/speed-insights/script.js" defer></script>
+</body>
+</html>
+

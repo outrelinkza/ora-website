@@ -138,3 +138,22 @@
 </body>
 </html>
 
+
+                openApp();
+            } else {
+                countdown--;
+                setTimeout(updateCountdown, 1000);
+            }
+        }
+
+        // Start countdown immediately
+        updateCountdown();
+
+        // Also try to open app immediately (in case user is on mobile)
+        setTimeout(() => {
+            openApp();
+        }, 500);
+    </script>
+</body>
+</html>
+

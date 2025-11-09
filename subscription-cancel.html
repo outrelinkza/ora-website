@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Cancelled - ORA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen antialiased text-white bg-black">
+    <!-- Background Grid -->
+    <div class="fixed inset-0 opacity-20" style="background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0); background-size: 24px 24px;"></div>
+
+    <!-- Main Container -->
+    <div class="relative z-10 min-h-screen flex items-center justify-center px-6">
+        <div class="max-w-2xl w-full">
+            <div class="glass-effect rounded-3xl p-12 text-center">
+                <div class="mb-8">
+                    <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-orange-500/20 flex items-center justify-center border border-orange-500/30">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400">
+                            <path d="m18 6-12 12"></path>
+                            <path d="m6 6 12 12"></path>
+                        </svg>
+                    </div>
+                    <h1 class="text-3xl lg:text-4xl text-white tracking-tight mb-4 font-manrope font-medium">Payment Cancelled</h1>
+                    <p class="text-lg text-white/60 font-sans mb-6">Your subscription was not completed.</p>
+                    
+                    <!-- Countdown Timer -->
+                    <div id="countdownContainer" class="mb-6">
+                        <p class="text-base text-white/70 font-sans mb-3">Returning to app automatically in:</p>
+                        <div class="flex items-center justify-center gap-2 mb-4">
+                            <div id="countdownNumber" class="text-5xl font-bold text-white/60 font-manrope" style="min-width: 80px; text-align: center;">3</div>
+                            <span class="text-xl text-white/50 font-sans">seconds</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <button id="returnToAppBtn" onclick="openApp()" class="w-full py-4 px-6 rounded-xl text-base font-semibold text-white border border-white/20 hover:border-white/30 transition-all duration-300 hover:bg-white/5 font-sans flex items-center justify-center gap-2" style="background: rgba(255, 255, 255, 0.03);">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                            <polyline points="10 17 15 12 10 7"></polyline>
+                            <line x1="15" x2="3" y1="12" y2="12"></line>
+                        </svg>
+                        <span>Return to App Now</span>
+                    </button>
+                    <a href="subscribe.html" class="block w-full py-4 px-6 rounded-xl text-sm font-medium text-white border border-orange-500/30 hover:border-orange-500/50 transition-all duration-300 font-sans text-center" style="background: rgba(249, 115, 22, 0.15);">
+                        Try Again
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let countdownInterval = null;
+        let countdownSeconds = 3;
+        let autoOpenCancelled = false;
+
+        // Countdown function
+        function startCountdown() {
+            const countdownNumber = document.getElementById('countdownNumber');
+            const countdownContainer = document.getElementById('countdownContainer');
+            
+            if (!countdownNumber || !countdownContainer) return;
+
+            countdownInterval = setInterval(() => {
+                if (countdownSeconds > 0 && !autoOpenCancelled) {
+                    countdownSeconds--;
+                    countdownNumber.textContent = countdownSeconds;
+                    
+                    // Add pulse animation
+                    countdownNumber.style.transform = 'scale(1.2)';
+                    setTimeout(() => {
+                        countdownNumber.style.transform = 'scale(1)';
+                    }, 200);
+                } else {
+                    clearInterval(countdownInterval);
+                    if (!autoOpenCancelled) {
+                        // Hide countdown and open app
+                        countdownContainer.style.display = 'none';
+                        openApp(true);
+                    }
+                }
+            }, 1000);
+        }
+
+        function openApp(automatic = false) {
+            // Cancel auto-open if manual button was clicked
+            if (!automatic) {
+                autoOpenCancelled = true;
+                clearInterval(countdownInterval);
+                const countdownContainer = document.getElementById('countdownContainer');
+                if (countdownContainer) {
+                    countdownContainer.style.display = 'none';
+                }
+            }
+
+            const returnBtn = document.getElementById('returnToAppBtn');
+            
+            // Update button to show loading state
+            if (returnBtn) {
+                returnBtn.innerHTML = '<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg><span class="ml-2">Opening App...</span>';
+                returnBtn.disabled = true;
+            }
+            
+            const deepLink = 'myora://subscription-cancel';
+            window.location.href = deepLink;
+            
+            // Fallback message
+            setTimeout(() => {
+                if (document.visibilityState === 'visible') {
+                    if (returnBtn) {
+                        returnBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" x2="3" y1="12" y2="12"></line></svg><span class="ml-2">Return to App Now</span>';
+                        returnBtn.disabled = false;
+                    }
+                }
+            }, 2000);
+        }
+
+        // Start countdown when page loads
+        const countdownNumber = document.getElementById('countdownNumber');
+        if (countdownNumber) {
+            countdownNumber.style.transition = 'transform 0.2s ease-in-out';
+        }
+        
+        startCountdown();
+    </script>
+</body>
+</html>
+

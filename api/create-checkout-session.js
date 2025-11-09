@@ -60,8 +60,8 @@ module.exports = async (req, res) => {
           quantity: 1,
         },
       ],
-      success_url: `${process.env.APP_URL || 'https://myora.co'}/subscription-success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.APP_URL || 'https://myora.co'}/subscription-cancel`,
+      success_url: `${process.env.APP_URL || 'https://myora.co'}/subscription-success?session_id={CHECKOUT_SESSION_ID}&userId=${userId || 'guest'}`,
+      cancel_url: `${process.env.APP_URL || 'https://myora.co'}/subscription-cancel?userId=${userId || 'guest'}`,
       consent_collection: {
         promotions: 'auto',
         terms_of_service: 'required',
