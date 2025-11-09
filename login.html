@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login & Testing Instructions - ORA</title>
+    <title>OAuth Testing - ORA</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -12,13 +12,6 @@
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .highlight {
-            background: rgba(249, 115, 22, 0.1);
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid #F97316;
-            margin: 20px 0;
         }
     </style>
 </head>
@@ -46,90 +39,52 @@
 
         <!-- Content -->
         <section class="pt-32 pb-20">
-            <div class="max-w-4xl mx-auto px-6">
+            <div class="max-w-3xl mx-auto px-6">
                 <div class="glass-effect rounded-2xl p-12">
-                    <h1 class="text-4xl font-bold mb-4">Login & Testing Instructions</h1>
-                    <p class="text-gray-400 mb-8">Instructions for Google OAuth verification testing</p>
-                    
-                    <div class="highlight">
-                        <strong>Important:</strong> ORA is a mobile application (iOS/Android). The OAuth consent screen is accessed through the mobile app, not through a web login page. However, you can test the OAuth consent screen directly using the Direct OAuth URL below (no app installation required).
-                    </div>
+                    <h1 class="text-4xl font-bold mb-2">OAuth Testing</h1>
+                    <p class="text-gray-400 mb-8">Google OAuth verification testing instructions</p>
 
-                    <div class="prose prose-invert max-w-none space-y-8">
+                    <div class="space-y-8">
+                        <!-- Direct OAuth URL -->
                         <div>
-                            <h2 class="text-2xl font-semibold mb-4">Alternative: Access Through Mobile App</h2>
-                            <p class="text-gray-300 mb-4">If you prefer to test through the mobile app (requires app installation):</p>
-                            <ol class="list-decimal list-inside text-gray-300 space-y-3 mb-6">
-                                <li><strong>Install the ORA mobile app</strong> on an iOS or Android device</li>
-                                <li><strong>Open the app</strong> and complete the initial onboarding (if first time)</li>
-                                <li><strong>Navigate to the "Inbox Shield" tab</strong> in the bottom navigation</li>
-                                <li><strong>Tap the "Connect Gmail" button</strong> (or similar connection prompt)</li>
-                                <li><strong>The OAuth consent screen will appear</strong> - This is the Google OAuth consent screen that requests Gmail read-only access</li>
-                                <li><strong>Sign in with a test Google account</strong> (2FA should be disabled for testing)</li>
-                                <li><strong>Review and accept the permissions</strong> - The app requests:
-                                    <ul class="list-disc list-inside ml-6 mt-2 space-y-1">
-                                        <li>Gmail read-only access (to scan for brand collaboration emails)</li>
-                                        <li>User profile information (email and basic profile)</li>
-                                    </ul>
-                                </li>
-                            </ol>
+                            <h2 class="text-2xl font-semibold mb-4">Test OAuth Flow</h2>
+                            <div class="bg-gray-800 rounded-lg p-6 mb-4">
+                                <a href="https://accounts.google.com/o/oauth2/v2/auth?client_id=389124746401-70ht7non8183n0ags7m1mma8d0cumdb7.apps.googleusercontent.com&redirect_uri=https://myora.co/oauth/callback&response_type=code&scope=https://www.googleapis.com/auth/gmail.readonly%20https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile&access_type=offline&prompt=consent" 
+                                   target="_blank" 
+                                   class="inline-block w-full py-4 px-6 rounded-xl text-base font-semibold text-white border border-orange-500/30 hover:border-orange-500/50 transition-all duration-300 text-center" 
+                                   style="background: rgba(249, 115, 22, 0.15);">
+                                    Test OAuth Consent Screen
+                                </a>
+                            </div>
                         </div>
 
+                        <!-- Test Account Requirements -->
                         <div>
                             <h2 class="text-2xl font-semibold mb-4">Test Account Requirements</h2>
-                            <div class="bg-gray-800 rounded-lg p-6 mb-6">
-                                <h3 class="text-lg font-semibold mb-3 text-orange-400">For Testing:</h3>
+                            <div class="bg-gray-800 rounded-lg p-6">
                                 <ul class="space-y-2 text-gray-300">
-                                    <li>• Use a Google account that has been added as a test user in Google Cloud Console</li>
-                                    <li>• <strong>2FA (Two-Factor Authentication) must be disabled</strong> on the test account</li>
-                                    <li>• The account should have access to Gmail</li>
-                                    <li>• Test accounts can be added in: Google Cloud Console → APIs & Services → OAuth consent screen → Test users</li>
+                                    <li>• Test account must be added in Google Cloud Console (OAuth consent screen → Test users)</li>
+                                    <li>• 2FA must be disabled on the test account</li>
+                                    <li>• Account must have Gmail access</li>
                                 </ul>
                             </div>
                         </div>
 
+                        <!-- OAuth Scopes -->
                         <div>
-                            <h2 class="text-2xl font-semibold mb-4">What the OAuth Flow Does</h2>
-                            <p class="text-gray-300 mb-4">
-                                The OAuth consent screen appears when users want to connect their Gmail account to ORA's "Inbox Shield" feature. 
-                                This feature allows influencers to:
-                            </p>
-                            <ul class="list-disc list-inside text-gray-300 mb-6 space-y-2">
-                                <li>Scan their Gmail inbox for brand collaboration opportunities</li>
-                                <li>Identify emails from brands and agencies</li>
-                                <li>Track collaboration requests and opportunities</li>
-                                <li>Never miss important brand partnership emails</li>
-                            </ul>
-                            <p class="text-gray-300">
-                                The app only requests <strong>read-only</strong> access to Gmail, meaning it can read emails but cannot send, delete, or modify them.
-                            </p>
-                        </div>
-
-                        <div>
-                            <h2 class="text-2xl font-semibold mb-4">Recommended: Direct OAuth URL (No App Required)</h2>
-                            <p class="text-gray-300 mb-4">
-                                <strong>This is the easiest way to test the OAuth consent screen.</strong> Simply click the URL below or copy it into your browser. This will open Google's OAuth consent screen where you can sign in with a test account (2FA disabled) and approve the permissions.
-                            </p>
-                            <div class="bg-gray-800 rounded-lg p-4 mb-4">
-                                <a href="https://accounts.google.com/o/oauth2/v2/auth?client_id=389124746401-70ht7non8183n0ags7m1mma8d0cumdb7.apps.googleusercontent.com&redirect_uri=https://myora.co/oauth/callback&response_type=code&scope=https://www.googleapis.com/auth/gmail.readonly%20https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile&access_type=offline&prompt=consent" 
-                                   target="_blank" 
-                                   class="text-orange-400 hover:text-orange-300 underline break-all text-sm block mb-2">
-                                    https://accounts.google.com/o/oauth2/v2/auth?client_id=389124746401-70ht7non8183n0ags7m1mma8d0cumdb7.apps.googleusercontent.com&redirect_uri=https://myora.co/oauth/callback&response_type=code&scope=https://www.googleapis.com/auth/gmail.readonly%20https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile&access_type=offline&prompt=consent
-                                </a>
-                                <p class="text-gray-400 text-xs mt-2">Click the link above to test the OAuth flow</p>
-                            </div>
-                            <div class="bg-blue-900/30 border border-blue-500/30 rounded-lg p-4 mb-6">
-                                <p class="text-gray-300 text-sm">
-                                    <strong>What happens:</strong> After you approve the permissions, you'll be redirected to our callback page at <code class="text-blue-400">https://myora.co/oauth/callback</code>. This confirms the OAuth flow is working correctly. The callback page will attempt to open the mobile app, but this is not required for testing - the successful redirect to the callback page is sufficient proof that the OAuth flow works.
-                                </p>
+                            <h2 class="text-2xl font-semibold mb-4">Requested Permissions</h2>
+                            <div class="bg-gray-800 rounded-lg p-6">
+                                <ul class="space-y-2 text-gray-300">
+                                    <li>• Gmail read-only access</li>
+                                    <li>• User email address</li>
+                                    <li>• Basic profile information</li>
+                                </ul>
                             </div>
                         </div>
 
+                        <!-- Support -->
                         <div>
                             <h2 class="text-2xl font-semibold mb-4">Support</h2>
-                            <p class="text-gray-300 mb-4">
-                                If you encounter any issues during testing, please contact us at:
-                            </p>
                             <div class="bg-gray-800 rounded-lg p-4">
                                 <p class="text-gray-300">
                                     <strong>Email:</strong> official.myora.co@outlook.com
@@ -143,4 +98,3 @@
     </div>
 </body>
 </html>
-
