@@ -52,12 +52,13 @@
                     <p class="text-gray-400 mb-8">Instructions for Google OAuth verification testing</p>
                     
                     <div class="highlight">
-                        <strong>Important:</strong> ORA is a mobile application (iOS/Android). The OAuth consent screen is accessed through the mobile app, not through a web login page.
+                        <strong>Important:</strong> ORA is a mobile application (iOS/Android). The OAuth consent screen is accessed through the mobile app, not through a web login page. However, you can test the OAuth consent screen directly using the Direct OAuth URL below (no app installation required).
                     </div>
 
                     <div class="prose prose-invert max-w-none space-y-8">
                         <div>
-                            <h2 class="text-2xl font-semibold mb-4">How to Access the OAuth Consent Screen</h2>
+                            <h2 class="text-2xl font-semibold mb-4">Alternative: Access Through Mobile App</h2>
+                            <p class="text-gray-300 mb-4">If you prefer to test through the mobile app (requires app installation):</p>
                             <ol class="list-decimal list-inside text-gray-300 space-y-3 mb-6">
                                 <li><strong>Install the ORA mobile app</strong> on an iOS or Android device</li>
                                 <li><strong>Open the app</strong> and complete the initial onboarding (if first time)</li>
@@ -105,18 +106,23 @@
                         </div>
 
                         <div>
-                            <h2 class="text-2xl font-semibold mb-4">Alternative: Direct OAuth URL</h2>
+                            <h2 class="text-2xl font-semibold mb-4">Recommended: Direct OAuth URL (No App Required)</h2>
                             <p class="text-gray-300 mb-4">
-                                If you need to test the OAuth consent screen directly without the mobile app, you can use this URL:
+                                <strong>This is the easiest way to test the OAuth consent screen.</strong> Simply click the URL below or copy it into your browser. This will open Google's OAuth consent screen where you can sign in with a test account (2FA disabled) and approve the permissions.
                             </p>
-                            <div class="bg-gray-800 rounded-lg p-4 mb-6">
-                                <code class="text-sm text-orange-400 break-all">
+                            <div class="bg-gray-800 rounded-lg p-4 mb-4">
+                                <a href="https://accounts.google.com/o/oauth2/v2/auth?client_id=389124746401-70ht7non8183n0ags7m1mma8d0cumdb7.apps.googleusercontent.com&redirect_uri=https://myora.co/oauth/callback&response_type=code&scope=https://www.googleapis.com/auth/gmail.readonly%20https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile&access_type=offline&prompt=consent" 
+                                   target="_blank" 
+                                   class="text-orange-400 hover:text-orange-300 underline break-all text-sm block mb-2">
                                     https://accounts.google.com/o/oauth2/v2/auth?client_id=389124746401-70ht7non8183n0ags7m1mma8d0cumdb7.apps.googleusercontent.com&redirect_uri=https://myora.co/oauth/callback&response_type=code&scope=https://www.googleapis.com/auth/gmail.readonly%20https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile&access_type=offline&prompt=consent
-                                </code>
+                                </a>
+                                <p class="text-gray-400 text-xs mt-2">Click the link above to test the OAuth flow</p>
                             </div>
-                            <p class="text-gray-300 text-sm">
-                                Note: After authorization, you'll be redirected to our callback page which then redirects to the mobile app.
-                            </p>
+                            <div class="bg-blue-900/30 border border-blue-500/30 rounded-lg p-4 mb-6">
+                                <p class="text-gray-300 text-sm">
+                                    <strong>What happens:</strong> After you approve the permissions, you'll be redirected to our callback page at <code class="text-blue-400">https://myora.co/oauth/callback</code>. This confirms the OAuth flow is working correctly. The callback page will attempt to open the mobile app, but this is not required for testing - the successful redirect to the callback page is sufficient proof that the OAuth flow works.
+                                </p>
+                            </div>
                         </div>
 
                         <div>
