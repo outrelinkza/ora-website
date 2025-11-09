@@ -33,12 +33,12 @@
         <nav class="fixed top-0 left-0 right-0 z-50 px-6 py-6">
             <div class="max-w-4xl mx-auto glass-effect rounded-full px-6 py-3">
                 <div class="flex items-center justify-between">
-                    <div class="flex items-center">
+                    <a href="/" class="flex items-center hover:opacity-80 transition-opacity">
                         <div class="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg">
                             <img src="Adobe Express - file-2.png" alt="ORA Logo" class="w-12 h-12 object-cover rounded-xl">
                         </div>
                         <span class="ml-3 text-lg font-semibold tracking-tight text-white font-sans">ORA</span>
-                    </div>
+                    </a>
                     <a href="index.html" class="text-sm font-medium hover:text-white transition-colors">← Back to Home</a>
                 </div>
             </div>
@@ -181,13 +181,32 @@
                         <p class="text-gray-300 mb-6">Our services are not directed to children under 16. We do not knowingly collect personal data from children under 16 without parental consent.</p>
 
                         <h2 class="text-2xl font-semibold mb-4">11. Third-Party Services</h2>
-                        <p class="text-gray-300 mb-4">Our app integrates with social media platforms (Instagram, TikTok, YouTube) to fetch your analytics data. These integrations:</p>
-                        <ul class="list-disc list-inside text-gray-300 mb-6 space-y-2">
-                            <li>Are secure and only access data you explicitly authorize</li>
-                            <li>Use OAuth 2.0 for secure authentication</li>
-                            <li>Do not store your social media passwords</li>
-                            <li>Allow you to revoke access at any time</li>
-                        </ul>
+                        <p class="text-gray-300 mb-4">Our app integrates with third-party services to provide enhanced functionality:</p>
+                        
+                        <div class="bg-gray-800 rounded-lg p-6 mb-4">
+                            <h3 class="text-lg font-semibold mb-3 text-orange-400">Social Media Platforms</h3>
+                            <p class="text-gray-300 mb-3">We integrate with social media platforms (Instagram, TikTok, YouTube, Snapchat) to fetch your analytics data. These integrations:</p>
+                            <ul class="list-disc list-inside text-gray-300 space-y-2">
+                                <li>Are secure and only access data you explicitly authorize</li>
+                                <li>Use OAuth 2.0 for secure authentication</li>
+                                <li>Do not store your social media passwords</li>
+                                <li>Allow you to revoke access at any time</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gray-800 rounded-lg p-6 mb-6">
+                            <h3 class="text-lg font-semibold mb-3 text-orange-400">Gmail Integration (Inbox Shield)</h3>
+                            <p class="text-gray-300 mb-3">Our Inbox Shield feature uses Gmail API to help you discover brand collaboration opportunities. This integration:</p>
+                            <ul class="list-disc list-inside text-gray-300 space-y-2">
+                                <li><strong>Read-only access:</strong> We only read your email metadata (subject, sender, snippet) - never full email content</li>
+                                <li><strong>No email modification:</strong> We never send, delete, or modify your emails</li>
+                                <li><strong>Purpose:</strong> Scans for brand collaboration emails that may be hidden in your Promotions tab</li>
+                                <li><strong>Data processing:</strong> All scanning happens locally on your device - we only display results</li>
+                                <li><strong>User control:</strong> You can disconnect Gmail at any time from within the app</li>
+                                <li><strong>Scope:</strong> Uses Gmail API read-only scope (gmail.readonly) - no write permissions</li>
+                                <li><strong>Privacy:</strong> We do not store your email content or share it with third parties</li>
+                            </ul>
+                        </div>
 
                         <h2 class="text-2xl font-semibold mb-4">12. Cookies and Tracking</h2>
                         <p class="text-gray-300 mb-4">We use cookies and similar technologies to:</p>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscribe - ORA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+    </style>
+</head>
+<body class="min-h-screen antialiased text-white bg-black">
+    <!-- Background Grid -->
+    <div class="fixed inset-0 opacity-20" style="background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0); background-size: 24px 24px;"></div>
+
+    <!-- Main Container -->
+    <div class="relative z-10 min-h-screen">
+        
+        <!-- Nav -->
+        <nav class="fixed top-0 left-0 right-0 z-50 px-6 py-6">
+            <div class="max-w-4xl mx-auto glass-effect rounded-full px-6 py-3">
+                <div class="flex items-center justify-between">
+                    <a href="/" class="flex items-center hover:opacity-80 transition-opacity">
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg">
+                            <img src="Adobe Express - file-2.png" alt="ORA Logo" class="w-12 h-12 object-cover rounded-xl">
+                        </div>
+                        <span class="ml-3 text-lg font-semibold tracking-tight text-white font-sans">ORA</span>
+                    </a>
+                    <a href="index.html" class="text-sm font-medium hover:text-white transition-colors font-sans">← Back to Home</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Content -->
+        <section class="pt-32 pb-20">
+            <div class="max-w-5xl mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h1 class="text-4xl lg:text-5xl text-white tracking-tight mb-4 font-manrope font-medium">Choose Your Plan</h1>
+                    <p class="text-lg text-white/60 font-sans mb-4">Simple, transparent pricing designed for creators at every stage.</p>
+                    <div id="selectedPlanNotice" class="hidden inline-block px-4 py-2 rounded-full text-sm font-medium text-white/80 border border-orange-500/30 font-sans" style="background: rgba(249, 115, 22, 0.1);">
+                        <span id="selectedPlanText"></span>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                    <!-- Free Plan -->
+                    <div data-plan-id="free" class="relative rounded-2xl border border-white/10 p-8" style="background: rgba(255, 255, 255, 0.02);">
+                        <div class="mb-8">
+                            <h4 class="text-xl font-semibold text-white mb-2 font-sans">Free</h4>
+                            <p class="text-sm text-white/60 mb-6 font-sans">Perfect for getting started.</p>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-4xl text-white font-manrope font-medium">$0</span>
+                                <span class="text-sm text-white/40 font-sans">/month</span>
+                            </div>
+                        </div>
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 flex-shrink-0"><path d="m9 12 2 2 4-4"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                                <span class="text-sm text-white/70 font-sans">Basic Rate Calculator</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 flex-shrink-0"><path d="m9 12 2 2 4-4"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                                <span class="text-sm text-white/70 font-sans">Limited Analytics</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 flex-shrink-0"><path d="m9 12 2 2 4-4"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                                <span class="text-sm text-white/70 font-sans">1 Collaboration Slot</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 flex-shrink-0"><path d="m9 12 2 2 4-4"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                                <span class="text-sm text-white/70 font-sans">Email Support</span>
+                            </li>
+                        </ul>
+                        <button onclick="selectPlan('free')" class="w-full py-4 px-6 rounded-xl text-sm font-medium text-white border border-white/20 hover:border-white/30 transition-all duration-300 hover:bg-white/5 font-sans" style="background: rgba(255, 255, 255, 0.03);">
+                            Get Started Free
+                        </button>
+                    </div>
+                    
+                    <!-- Creator Plan - Featured -->
+                    <div data-plan-id="creator" class="relative rounded-2xl border border-orange-500/30 p-8" style="background: rgba(249, 115, 22, 0.05);">
+                        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                            <span class="px-4 py-1 text-xs font-medium text-white rounded-full border border-orange-500/30 font-sans" style="background: rgba(249, 115, 22, 0.15);">Most Popular</span>
+                        </div>
+                        <div class="mb-8">
+                            <h4 class="text-xl font-semibold text-white mb-2 font-sans">Creator</h4>
+                            <p class="text-sm text-white/60 mb-6 font-sans">For serious content creators.</p>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-4xl text-white font-manrope font-medium">$14.99</span>
+                                <span class="text-sm text-white/40 font-sans">/month</span>
+                            </div>
+                        </div>
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 flex-shrink-0"><path d="m9 12 2 2 4-4"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                                <span class="text-sm text-white/70 font-sans">25 Deals</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 flex-shrink-0"><path d="m9 12 2 2 4-4"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                                <span class="text-sm text-white/70 font-sans">Contract Templates</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 flex-shrink-0"><path d="m9 12 2 2 4-4"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                                <span class="text-sm text-white/70 font-sans">Brand Vault Access</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 flex-shrink-0"><path d="m9 12 2 2 4-4"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                                <span class="text-sm text-white/70 font-sans">Advanced Analytics</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 flex-shrink-0"><path d="m9 12 2 2 4-4"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                                <span class="text-sm text-white/70 font-sans">Media Kit Export</span>
+                            </li>
+                        </ul>
+                        <button onclick="selectPlan('creator')" class="w-full py-4 px-6 rounded-xl text-sm font-medium text-white border border-orange-500/30 hover:border-orange-500/50 transition-all duration-300 font-sans" style="background: rgba(249, 115, 22, 0.15);">
+                            Choose Creator
+                        </button>
+                    </div>
+                    
+                    <!-- Pro Plan -->
+                    <div data-plan-id="pro" class="relative rounded-2xl border border-white/10 p-8" style="background: rgba(255, 255, 255, 0.02);">
+                        <div class="mb-8">
+                            <h4 class="text-xl font-semibold text-white mb-2 font-sans">Pro</h4>
+                            <p class="text-sm text-white/60 mb-6 font-sans">For professional creators.</p>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-4xl text-white font-manrope font-medium">$24.99</span>
+                                <span class="text-sm text-white/40 font-sans">/month</span>
+                            </div>
+                        </div>
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 flex-shrink-0"><path d="m9 12 2 2 4-4"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                                <span class="text-sm text-white/70 font-sans">100 Deals</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 flex-shrink-0"><path d="m9 12 2 2 4-4"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                                <span class="text-sm text-white/70 font-sans">AI Recommendations</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 flex-shrink-0"><path d="m9 12 2 2 4-4"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                                <span class="text-sm text-white/70 font-sans">Unlimited Contracts</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 flex-shrink-0"><path d="m9 12 2 2 4-4"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                                <span class="text-sm text-white/70 font-sans">All Creator Features</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 flex-shrink-0"><path d="m9 12 2 2 4-4"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                                <span class="text-sm text-white/70 font-sans">Priority Support</span>
+                            </li>
+                        </ul>
+                        <button onclick="selectPlan('pro')" class="w-full py-4 px-6 rounded-xl text-sm font-medium text-white border border-white/20 hover:border-white/30 transition-all duration-300 hover:bg-white/5 font-sans" style="background: rgba(255, 255, 255, 0.03);">
+                            Choose Pro
+                        </button>
+                    </div>
+                    
+                    <!-- Premium Plan -->
+                    <div data-plan-id="premium" class="relative rounded-2xl border border-white/10 p-8" style="background: rgba(255, 255, 255, 0.02);">
+                        <div class="mb-8">
+                            <h4 class="text-xl font-semibold text-white mb-2 font-sans">Premium</h4>
+                            <p class="text-sm text-white/60 mb-6 font-sans">For agencies and power users.</p>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-4xl text-white font-manrope font-medium">$49.99</span>
+                                <span class="text-sm text-white/40 font-sans">/month</span>
+                            </div>
+                        </div>
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 flex-shrink-0"><path d="m9 12 2 2 4-4"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                                <span class="text-sm text-white/70 font-sans">Unlimited Deals</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 flex-shrink-0"><path d="m9 12 2 2 4-4"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                                <span class="text-sm text-white/70 font-sans">Unlimited Contracts</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 flex-shrink-0"><path d="m9 12 2 2 4-4"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                                <span class="text-sm text-white/70 font-sans">All Features</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 flex-shrink-0"><path d="m9 12 2 2 4-4"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                                <span class="text-sm text-white/70 font-sans">Priority Support</span>
+                            </li>
+                        </ul>
+                        <button onclick="selectPlan('premium')" class="w-full py-4 px-6 rounded-xl text-sm font-medium text-white border border-white/20 hover:border-white/30 transition-all duration-300 hover:bg-white/5 font-sans" style="background: rgba(255, 255, 255, 0.03);">
+                            Choose Premium
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Legal Links -->
+                <div class="text-center mt-12 text-sm text-white/40 font-sans">
+                    <p>By subscribing, you agree to our <a href="/terms-of-service" class="text-white/60 hover:text-white underline">Terms of Service</a> and <a href="/privacy-policy" class="text-white/60 hover:text-white underline">Privacy Policy</a>.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Get plan and user info from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const planId = urlParams.get('plan') || 'creator';
+        const userId = urlParams.get('userId') || 'guest';
+        const email = urlParams.get('email') || '';
+
+        // Plan names mapping
+        const planNames = {
+            'free': 'Free',
+            'creator': 'Creator',
+            'pro': 'Pro',
+            'premium': 'Premium'
+        };
+
+        // Show selected plan notice if coming from app
+        if (urlParams.get('plan') && planId !== 'free') {
+            const notice = document.getElementById('selectedPlanNotice');
+            const noticeText = document.getElementById('selectedPlanText');
+            if (notice && noticeText) {
+                notice.classList.remove('hidden');
+                noticeText.textContent = `You selected ${planNames[planId] || planId} plan in the app`;
+            }
+
+            // Highlight the selected plan card
+            setTimeout(() => {
+                const planCards = document.querySelectorAll('[data-plan-id]');
+                planCards.forEach(card => {
+                    if (card.getAttribute('data-plan-id') === planId) {
+                        // Add a subtle pulse animation
+                        card.style.animation = 'pulse 2s ease-in-out';
+                        card.style.border = '2px solid rgba(249, 115, 22, 0.5)';
+                        setTimeout(() => {
+                            card.style.animation = '';
+                        }, 2000);
+                    }
+                });
+            }, 100);
+        }
+
+        // Select plan function
+        function selectPlan(plan) {
+            // Get user info from URL or prompt
+            const currentUserId = urlParams.get('userId') || userId;
+            const currentEmail = urlParams.get('email') || email || prompt('Enter your email:') || 'user@example.com';
+
+            // Create checkout session
+            createCheckoutSession(plan, currentUserId, currentEmail);
+        }
+
+        // Create Stripe Checkout session
+        async function createCheckoutSession(planId, userId, email) {
+            try {
+                const response = await fetch('https://myora.co/api/create-checkout-session', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        planId,
+                        userId,
+                        email,
+                    }),
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    alert('Error: ' + (error.error || 'Failed to create checkout session'));
+                    return;
+                }
+
+                const data = await response.json();
+                
+                // Redirect to Stripe Checkout
+                if (data.url) {
+                    window.location.href = data.url;
+                } else {
+                    alert('Error: No checkout URL received');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to create checkout session. Please try again.');
+            }
+        }
+
+        // Auto-select plan if provided in URL
+        if (urlParams.get('plan')) {
+            // Optionally auto-start checkout
+            // selectPlan(urlParams.get('plan'));
+        }
+    </script>
+</body>
+</html>
+
