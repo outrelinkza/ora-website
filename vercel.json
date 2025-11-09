@@ -9,6 +9,26 @@
       "destination": "/terms.html"
     },
     {
+      "source": "/subscribe",
+      "destination": "/subscribe.html"
+    },
+    {
+      "source": "/subscription-success",
+      "destination": "/subscription-success.html"
+    },
+    {
+      "source": "/subscription-cancel",
+      "destination": "/subscription-cancel.html"
+    },
+    {
+      "source": "/oauth/callback",
+      "destination": "/oauth/callback.html"
+    },
+    {
+      "source": "/login",
+      "destination": "/login.html"
+    },
+    {
       "source": "/webhook",
       "destination": "/api/webhook"
     }

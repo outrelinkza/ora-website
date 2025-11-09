@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Testing Instructions - ORA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .highlight {
+            background: rgba(249, 115, 22, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #F97316;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body class="min-h-screen antialiased text-white bg-black">
+    <!-- Background Grid -->
+    <div class="fixed inset-0 opacity-20" style="background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0); background-size: 24px 24px;"></div>
+
+    <!-- Main Container -->
+    <div class="relative z-10 min-h-screen">
+        
+        <!-- Nav -->
+        <nav class="fixed top-0 left-0 right-0 z-50 px-6 py-6">
+            <div class="max-w-4xl mx-auto glass-effect rounded-full px-6 py-3">
+                <div class="flex items-center justify-between">
+                    <a href="/" class="flex items-center hover:opacity-80 transition-opacity">
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg">
+                            <img src="Adobe Express - file-2.png" alt="ORA Logo" class="w-12 h-12 object-cover rounded-xl">
+                        </div>
+                        <span class="ml-3 text-lg font-semibold tracking-tight text-white font-sans">ORA</span>
+                    </a>
+                    <a href="/" class="text-sm font-medium hover:text-white transition-colors">← Back to Home</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Content -->
+        <section class="pt-32 pb-20">
+            <div class="max-w-4xl mx-auto px-6">
+                <div class="glass-effect rounded-2xl p-12">
+                    <h1 class="text-4xl font-bold mb-4">Login & Testing Instructions</h1>
+                    <p class="text-gray-400 mb-8">Instructions for Google OAuth verification testing</p>
+                    
+                    <div class="highlight">
+                        <strong>Important:</strong> ORA is a mobile application (iOS/Android). The OAuth consent screen is accessed through the mobile app, not through a web login page.
+                    </div>
+
+                    <div class="prose prose-invert max-w-none space-y-8">
+                        <div>
+                            <h2 class="text-2xl font-semibold mb-4">How to Access the OAuth Consent Screen</h2>
+                            <ol class="list-decimal list-inside text-gray-300 space-y-3 mb-6">
+                                <li><strong>Install the ORA mobile app</strong> on an iOS or Android device</li>
+                                <li><strong>Open the app</strong> and complete the initial onboarding (if first time)</li>
+                                <li><strong>Navigate to the "Inbox Shield" tab</strong> in the bottom navigation</li>
+                                <li><strong>Tap the "Connect Gmail" button</strong> (or similar connection prompt)</li>
+                                <li><strong>The OAuth consent screen will appear</strong> - This is the Google OAuth consent screen that requests Gmail read-only access</li>
+                                <li><strong>Sign in with a test Google account</strong> (2FA should be disabled for testing)</li>
+                                <li><strong>Review and accept the permissions</strong> - The app requests:
+                                    <ul class="list-disc list-inside ml-6 mt-2 space-y-1">
+                                        <li>Gmail read-only access (to scan for brand collaboration emails)</li>
+                                        <li>User profile information (email and basic profile)</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </div>
+
+                        <div>
+                            <h2 class="text-2xl font-semibold mb-4">Test Account Requirements</h2>
+                            <div class="bg-gray-800 rounded-lg p-6 mb-6">
+                                <h3 class="text-lg font-semibold mb-3 text-orange-400">For Testing:</h3>
+                                <ul class="space-y-2 text-gray-300">
+                                    <li>• Use a Google account that has been added as a test user in Google Cloud Console</li>
+                                    <li>• <strong>2FA (Two-Factor Authentication) must be disabled</strong> on the test account</li>
+                                    <li>• The account should have access to Gmail</li>
+                                    <li>• Test accounts can be added in: Google Cloud Console → APIs & Services → OAuth consent screen → Test users</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h2 class="text-2xl font-semibold mb-4">What the OAuth Flow Does</h2>
+                            <p class="text-gray-300 mb-4">
+                                The OAuth consent screen appears when users want to connect their Gmail account to ORA's "Inbox Shield" feature. 
+                                This feature allows influencers to:
+                            </p>
+                            <ul class="list-disc list-inside text-gray-300 mb-6 space-y-2">
+                                <li>Scan their Gmail inbox for brand collaboration opportunities</li>
+                                <li>Identify emails from brands and agencies</li>
+                                <li>Track collaboration requests and opportunities</li>
+                                <li>Never miss important brand partnership emails</li>
+                            </ul>
+                            <p class="text-gray-300">
+                                The app only requests <strong>read-only</strong> access to Gmail, meaning it can read emails but cannot send, delete, or modify them.
+                            </p>
+                        </div>
+
+                        <div>
+                            <h2 class="text-2xl font-semibold mb-4">Alternative: Direct OAuth URL</h2>
+                            <p class="text-gray-300 mb-4">
+                                If you need to test the OAuth consent screen directly without the mobile app, you can use this URL:
+                            </p>
+                            <div class="bg-gray-800 rounded-lg p-4 mb-6">
+                                <code class="text-sm text-orange-400 break-all">
+                                    https://accounts.google.com/o/oauth2/v2/auth?client_id=389124746401-70ht7non8183n0ags7m1mma8d0cumdb7.apps.googleusercontent.com&redirect_uri=https://myora.co/oauth/callback&response_type=code&scope=https://www.googleapis.com/auth/gmail.readonly%20https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile&access_type=offline&prompt=consent
+                                </code>
+                            </div>
+                            <p class="text-gray-300 text-sm">
+                                Note: After authorization, you'll be redirected to our callback page which then redirects to the mobile app.
+                            </p>
+                        </div>
+
+                        <div>
+                            <h2 class="text-2xl font-semibold mb-4">Support</h2>
+                            <p class="text-gray-300 mb-4">
+                                If you encounter any issues during testing, please contact us at:
+                            </p>
+                            <div class="bg-gray-800 rounded-lg p-4">
+                                <p class="text-gray-300">
+                                    <strong>Email:</strong> official.myora.co@outlook.com
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
+
