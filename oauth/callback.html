@@ -25,7 +25,7 @@
         <div class="max-w-2xl w-full">
             <div class="glass-effect rounded-3xl p-12 text-center">
                 <div class="mb-8">
-                    <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-orange-500/20 flex items-center justify-center border border-orange-500/30">
+                    <div id="iconContainer" class="w-20 h-20 mx-auto mb-6 rounded-full bg-orange-500/20 flex items-center justify-center border border-orange-500/30">
                         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                             <polyline points="7 10 12 15 17 10"></polyline>
@@ -33,7 +33,6 @@
                         </svg>
                     </div>
                     <h1 class="text-3xl lg:text-4xl text-white tracking-tight mb-4 font-manrope font-medium" id="mainTitle">Connecting Gmail...</h1>
-                    <p class="text-lg text-white/60 font-sans mb-6" id="statusMessage">Redirecting you back to the ORA app.</p>
                     <div id="successMessage" class="hidden bg-green-900/30 border border-green-500/30 rounded-lg p-4 mb-6">
                         <p class="text-green-300 text-sm">
                             <strong>✓ OAuth Authorization Successful!</strong><br>
@@ -43,16 +42,23 @@
                     
                     <!-- Countdown Timer -->
                     <div id="countdownContainer" class="mb-6">
-                        <p class="text-base text-white/70 font-sans mb-3">Opening app in:</p>
+                        <p class="text-base text-white/70 font-sans mb-3">Redirecting in:</p>
                         <div class="flex items-center justify-center gap-2 mb-4">
-                            <div id="countdownNumber" class="text-5xl font-bold text-orange-400 font-manrope" style="min-width: 80px; text-align: center;">3</div>
+                            <div id="countdownNumber" class="text-5xl font-bold text-orange-400 font-manrope" style="min-width: 80px; text-align: center;">5</div>
                             <span class="text-xl text-white/50 font-sans">seconds</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="space-y-4">
-                    <button id="returnToAppBtn" onclick="openApp()" class="w-full py-4 px-6 rounded-xl text-base font-semibold text-white border border-orange-500/30 hover:border-orange-500/50 transition-all duration-300 font-sans flex items-center justify-center gap-2" style="background: rgba(249, 115, 22, 0.15);">
+                    <button id="returnToHomeBtn" onclick="redirectToHome()" class="w-full py-4 px-6 rounded-xl text-base font-semibold text-white border border-orange-500/30 hover:border-orange-500/50 transition-all duration-300 font-sans flex items-center justify-center gap-2" style="background: rgba(249, 115, 22, 0.15);">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                        Return to Homepage
+                    </button>
+                    <button id="openAppBtn" onclick="tryOpenApp()" class="w-full py-4 px-6 rounded-xl text-base font-semibold text-white border border-blue-500/30 hover:border-blue-500/50 transition-all duration-300 font-sans flex items-center justify-center gap-2" style="background: rgba(59, 130, 246, 0.15);">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
                             <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
                             <polyline points="10 17 15 12 10 7"></polyline>
@@ -66,94 +72,100 @@
     </div>
 
     <script>
-        // Get URL parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        const code = urlParams.get('code');
-        const error = urlParams.get('error');
-        const errorDescription = urlParams.get('error_description');
+        (function() {
+            'use strict';
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+            const error = urlParams.get('error');
+            const errorDescription = urlParams.get('error_description');
 
-        // Deep link to app
-        const appScheme = 'myora://oauth/callback';
+            const appScheme = 'myora://oauth/callback';
+            const homepageUrl = 'https://myora.co';
+            let countdownInterval = null;
+            let countdown = 5;
 
-        function openApp() {
+            function redirectToHome() {
+                if (countdownInterval) {
+                    clearInterval(countdownInterval);
+                }
+                window.location.href = homepageUrl;
+            }
+
+            function tryOpenApp() {
+                if (code) {
+                    window.location.href = appScheme + '?code=' + encodeURIComponent(code);
+                } else if (error) {
+                    window.location.href = appScheme + '?error=' + encodeURIComponent(error) + '&error_description=' + encodeURIComponent(errorDescription || 'Authentication failed');
+                } else {
+                    window.location.href = appScheme;
+                }
+                
+                setTimeout(function() {
+                    redirectToHome();
+                }, 2000);
+            }
+
+            function updateCountdown() {
+                const countdownElement = document.getElementById('countdownNumber');
+                if (countdownElement) {
+                    countdownElement.textContent = countdown;
+                }
+                
+                if (countdown <= 0) {
+                    if (countdownInterval) {
+                        clearInterval(countdownInterval);
+                    }
+                    redirectToHome();
+                } else {
+                    countdown--;
+                }
+            }
+
             if (code) {
-                // Redirect to app with code
-                window.location.href = `${appScheme}?code=${encodeURIComponent(code)}`;
-            } else if (error) {
-                // Redirect to app with error
-                window.location.href = `${appScheme}?error=${encodeURIComponent(error)}&error_description=${encodeURIComponent(errorDescription || 'Authentication failed')}`;
-            } else {
-                // Just try to open app
-                window.location.href = appScheme;
+                document.getElementById('mainTitle').textContent = 'Authorization Successful!';
+                document.getElementById('successMessage').classList.remove('hidden');
+                
+                const iconContainer = document.getElementById('iconContainer');
+                iconContainer.classList.remove('bg-orange-500/20', 'border-orange-500/30');
+                iconContainer.classList.add('bg-green-500/20', 'border-green-500/30');
+                
+                const icon = iconContainer.querySelector('svg');
+                if (icon) {
+                    icon.classList.remove('text-orange-400');
+                    icon.classList.add('text-green-400');
+                }
             }
-        }
-
-        // Handle success
-        if (code) {
-            document.getElementById('mainTitle').textContent = 'Authorization Successful!';
-            document.getElementById('statusMessage').textContent = 'OAuth authorization code received successfully.';
-            document.getElementById('statusMessage').classList.add('text-green-400');
-            document.getElementById('successMessage').classList.remove('hidden');
-            document.querySelector('.bg-orange-500/20').classList.remove('bg-orange-500/20');
-            document.querySelector('.bg-orange-500/20').classList.add('bg-green-500/20');
-            document.querySelector('.border-orange-500/30').classList.remove('border-orange-500/30');
-            document.querySelector('.border-orange-500/30').classList.add('border-green-500/30');
-        }
-        
-        // Handle errors
-        if (error) {
-            document.getElementById('mainTitle').textContent = 'Authorization Failed';
-            document.getElementById('statusMessage').textContent = 'Authentication failed. Please try again.';
-            document.getElementById('statusMessage').classList.add('text-red-400');
-            document.querySelector('.bg-orange-500/20').classList.remove('bg-orange-500/20');
-            document.querySelector('.bg-orange-500/20').classList.add('bg-red-500/20');
-            document.querySelector('.border-orange-500/30').classList.remove('border-orange-500/30');
-            document.querySelector('.border-orange-500/30').classList.add('border-red-500/30');
-        }
-
-        // Countdown and auto-redirect
-        let countdown = 3;
-        const countdownElement = document.getElementById('countdownNumber');
-        const countdownContainer = document.getElementById('countdownContainer');
-
-        function updateCountdown() {
-            countdownElement.textContent = countdown;
-            if (countdown <= 0) {
-                countdownContainer.style.display = 'none';
-                openApp();
-            } else {
-                countdown--;
-                setTimeout(updateCountdown, 1000);
+            
+            if (error) {
+                document.getElementById('mainTitle').textContent = 'Authorization Failed';
+                document.getElementById('successMessage').classList.remove('hidden');
+                document.getElementById('successMessage').classList.remove('bg-green-900/30', 'border-green-500/30');
+                document.getElementById('successMessage').classList.add('bg-red-900/30', 'border-red-500/30');
+                document.getElementById('successMessage').querySelector('p').innerHTML = '<strong>✗ OAuth Authorization Failed</strong><br>' + (errorDescription || 'Authentication failed. Please try again.');
+                
+                const iconContainer = document.getElementById('iconContainer');
+                iconContainer.classList.remove('bg-orange-500/20', 'border-orange-500/30');
+                iconContainer.classList.add('bg-red-500/20', 'border-red-500/30');
+                
+                const icon = iconContainer.querySelector('svg');
+                if (icon) {
+                    icon.classList.remove('text-orange-400');
+                    icon.classList.add('text-red-400');
+                }
             }
-        }
 
-        // Start countdown immediately
-        updateCountdown();
+            const countdownElement = document.getElementById('countdownNumber');
+            if (countdownElement) {
+                countdownInterval = setInterval(updateCountdown, 1000);
+            }
 
-        // Also try to open app immediately (in case user is on mobile)
-        setTimeout(() => {
-            openApp();
-        }, 500);
+            if (code && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+                setTimeout(function() {
+                    tryOpenApp();
+                }, 1000);
+            }
+        })();
     </script>
 </body>
 </html>
-
-
-                openApp();
-            } else {
-                countdown--;
-                setTimeout(updateCountdown, 1000);
-            }
-        }
-
-        // Start countdown immediately
-        updateCountdown();
-
-        // Also try to open app immediately (in case user is on mobile)
-        setTimeout(() => {
-            openApp();
-        }, 500);
-    </script>
-</body>
-</html>
-
