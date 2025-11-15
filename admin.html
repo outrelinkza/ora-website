@@ -998,26 +998,55 @@
 
             <!-- Errors Tab -->
             <div id="errors" class="content">
-                <div class="stats-grid">
-                    <div class="stat-card">
+                <div style="margin-bottom: 30px;">
+                    <h2 style="font-family: 'Manrope', sans-serif; font-size: 28px; color: #ffffff; margin-bottom: 10px;">Real-Time Error Monitoring</h2>
+                    <p style="color: rgba(255, 255, 255, 0.6); font-size: 14px;">Live errors, console errors, and app crashes from all users</p>
+                </div>
+
+                <div class="stats-grid" style="margin-bottom: 30px;">
+                    <div class="stat-card" style="background: linear-gradient(135deg, rgba(255, 59, 48, 0.15) 0%, rgba(255, 59, 48, 0.05) 100%); border: 1px solid rgba(255, 59, 48, 0.2);">
                         <h3>Total Errors</h3>
-                        <div class="value" id="totalErrors">-</div>
+                        <div class="value" id="totalErrors" style="color: #ff3b30;">-</div>
+                        <div class="label">All errors tracked</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" style="background: linear-gradient(135deg, rgba(255, 107, 107, 0.15) 0%, rgba(255, 107, 107, 0.05) 100%); border: 1px solid rgba(255, 107, 107, 0.2);">
                         <h3>Critical Errors</h3>
-                        <div class="value" id="criticalErrors" style="color: #ff3b30;">-</div>
+                        <div class="value" id="criticalErrors" style="color: #ff6b6b;">-</div>
+                        <div class="label">Requires immediate attention</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.05) 100%); border: 1px solid rgba(16, 185, 129, 0.2);">
                         <h3>Resolved</h3>
                         <div class="value" id="resolvedErrors" style="color: #10b981;">-</div>
+                        <div class="label">Fixed errors</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(245, 158, 11, 0.05) 100%); border: 1px solid rgba(245, 158, 11, 0.2);">
                         <h3>Unresolved</h3>
                         <div class="value" id="unresolvedErrors" style="color: #f59e0b;">-</div>
+                        <div class="label">Needs fixing</div>
                     </div>
                 </div>
                 <div class="table-container">
-                    <h3>Recent Errors</h3>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3 style="margin: 0;">Recent Errors (Real-Time)</h3>
+                        <div style="display: flex; gap: 12px;">
+                            <button 
+                                onclick="refreshErrors()" 
+                                style="padding: 10px 20px; background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 10px; color: #ffffff; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.3s;"
+                                onmouseover="this.style.background='rgba(59, 130, 246, 0.25)'"
+                                onmouseout="this.style.background='rgba(59, 130, 246, 0.15)'"
+                            >
+                                🔄 Refresh
+                            </button>
+                            <button 
+                                onclick="exportErrorsCSV()" 
+                                style="padding: 10px 20px; background: rgba(249, 115, 22, 0.15); border: 1px solid rgba(249, 115, 22, 0.3); border-radius: 10px; color: #ffffff; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.3s;"
+                                onmouseover="this.style.background='rgba(249, 115, 22, 0.25)'"
+                                onmouseout="this.style.background='rgba(249, 115, 22, 0.15)'"
+                            >
+                                Export CSV
+                            </button>
+                        </div>
+                    </div>
                     <div id="errorsList">
                         <div class="loading">Loading...</div>
                     </div>
@@ -1943,48 +1972,107 @@
             }
         }
 
+        // Store errors for export
+        let allErrorsData = [];
+
         async function loadErrors() {
             try {
                 const adminToken = localStorage.getItem('admin_token') || '';
                 const response = await fetch(`/api/admin?type=errors&token=${adminToken}`);
                 const data = await response.json();
 
-                document.getElementById('totalErrors').textContent = data.totalErrors || 0;
-                document.getElementById('criticalErrors').textContent = data.criticalErrors || 0;
-                document.getElementById('resolvedErrors').textContent = data.resolvedErrors || 0;
-                document.getElementById('unresolvedErrors').textContent = data.unresolvedErrors || 0;
+                document.getElementById('totalErrors').textContent = (data.totalErrors || 0).toLocaleString();
+                document.getElementById('criticalErrors').textContent = (data.criticalErrors || 0).toLocaleString();
+                document.getElementById('resolvedErrors').textContent = (data.resolvedErrors || 0).toLocaleString();
+                document.getElementById('unresolvedErrors').textContent = (data.unresolvedErrors || 0).toLocaleString();
 
-                // Errors list
+                // Store for export
+                allErrorsData = data.errors || [];
+
+                // Errors list with detailed view
                 const errorsEl = document.getElementById('errorsList');
                 if (data.errors && data.errors.length > 0) {
                     errorsEl.innerHTML = `
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Type</th>
-                                    <th>Message</th>
-                                    <th>Severity</th>
-                                    <th>Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${data.errors.map(error => `
-                                    <tr>
-                                        <td>${error.type || 'N/A'}</td>
-                                        <td>${error.message || 'N/A'}</td>
-                                        <td><span class="badge" style="background: ${getSeverityColor(error.severity)}">${error.severity || 'N/A'}</span></td>
-                                        <td>${new Date(error.timestamp).toLocaleString()}</td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
+                        <div style="display: flex; flex-direction: column; gap: 16px;">
+                            ${data.errors.map(err => {
+                                const severityColor = err.severity === 'critical' 
+                                    ? 'rgba(255, 59, 48, 0.2); color: #ff3b30'
+                                    : err.severity === 'high'
+                                    ? 'rgba(255, 107, 107, 0.2); color: #ff6b6b'
+                                    : err.severity === 'medium'
+                                    ? 'rgba(245, 158, 11, 0.2); color: #f59e0b'
+                                    : 'rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.6)';
+                                
+                                const typeColor = err.type === 'javascript' 
+                                    ? 'rgba(59, 130, 246, 0.2); color: #3b82f6'
+                                    : err.type === 'network'
+                                    ? 'rgba(139, 92, 246, 0.2); color: #8b5cf6'
+                                    : 'rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.6)';
+                                
+                                return `
+                                    <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; transition: all 0.3s;" 
+                                         onmouseover="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.borderColor='rgba(255, 255, 255, 0.2)'"
+                                         onmouseout="this.style.background='rgba(255, 255, 255, 0.05)'; this.style.borderColor='rgba(255, 255, 255, 0.1)'">
+                                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                                            <div style="flex: 1;">
+                                                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                                                    <span class="badge" style="background: ${typeColor}">${err.type || 'unknown'}</span>
+                                                    <span class="badge" style="background: ${severityColor}">${err.severity || 'medium'}</span>
+                                                    ${err.resolved ? '<span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #10b981">Resolved</span>' : ''}
+                                                    <span style="color: rgba(255, 255, 255, 0.6); font-size: 12px;">${new Date(err.timestamp).toLocaleString()}</span>
+                                                </div>
+                                                <h4 style="color: #ffffff; font-size: 16px; font-weight: 600; margin: 0 0 8px 0;">${err.message || 'Unknown error'}</h4>
+                                                ${err.screen ? `<p style="color: rgba(255, 255, 255, 0.7); margin: 0 0 4px 0; font-size: 13px;"><strong>Screen:</strong> ${err.screen}</p>` : ''}
+                                                ${err.device ? `<p style="color: rgba(255, 255, 255, 0.7); margin: 0 0 4px 0; font-size: 13px;"><strong>Device:</strong> ${err.device}</p>` : ''}
+                                                ${err.appVersion ? `<p style="color: rgba(255, 255, 255, 0.7); margin: 0 0 4px 0; font-size: 13px;"><strong>App Version:</strong> ${err.appVersion}</p>` : ''}
+                                                ${err.stack ? `
+                                                    <details style="margin-top: 12px;">
+                                                        <summary style="color: rgba(255, 255, 255, 0.7); font-size: 13px; cursor: pointer; user-select: none;">View Stack Trace</summary>
+                                                        <div style="background: rgba(0, 0, 0, 0.3); padding: 12px; border-radius: 8px; margin-top: 8px; font-family: 'Monaco', 'Courier New', monospace; font-size: 11px; color: rgba(255, 255, 255, 0.8); white-space: pre-wrap; overflow-x: auto;">
+${err.stack}
+                                                        </div>
+                                                    </details>
+                                                ` : ''}
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
                     `;
                 } else {
-                    errorsEl.innerHTML = '<div class="empty-state">No errors reported</div>';
+                    errorsEl.innerHTML = '<div class="empty-state">No errors found. Great job! 🎉</div>';
                 }
             } catch (error) {
                 console.error('Error loading errors:', error);
+                document.getElementById('errorsList').innerHTML = '<div class="error">Failed to load errors</div>';
             }
+        }
+
+        function refreshErrors() {
+            loadErrors();
+        }
+
+        function exportErrorsCSV() {
+            if (allErrorsData.length === 0) {
+                alert('No errors data to export');
+                return;
+            }
+            
+            const headers = ['Type', 'Severity', 'Message', 'Screen', 'Device', 'App Version', 'Timestamp', 'Resolved'];
+            const rows = allErrorsData.map(err => [
+                err.type || '',
+                err.severity || '',
+                err.message || '',
+                err.screen || '',
+                err.device || '',
+                err.appVersion || '',
+                new Date(err.timestamp).toLocaleString(),
+                err.resolved ? 'Yes' : 'No'
+            ]);
+            
+            const csv = [headers.join(','), ...rows.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(','))].join('\n');
+            downloadCSV(csv, 'ora_errors_' + new Date().toISOString().split('T')[0] + '.csv');
         }
 
         function getSeverityColor(severity) {
