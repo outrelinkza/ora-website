@@ -359,6 +359,170 @@
             margin-bottom: 20px;
             font-family: 'Inter', sans-serif;
         }
+
+        /* Email Modal */
+        .email-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .email-modal.active {
+            display: flex;
+        }
+
+        .email-modal-content {
+            background: rgba(10, 11, 20, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            backdrop-filter: blur(40px);
+        }
+
+        .email-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .email-modal-header h2 {
+            font-family: 'Manrope', sans-serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: #ffffff;
+            margin: 0;
+        }
+
+        .email-modal-close {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #ffffff;
+            font-size: 20px;
+            transition: all 0.3s;
+        }
+
+        .email-modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .email-form-group {
+            margin-bottom: 20px;
+        }
+
+        .email-form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 8px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .email-form-group input,
+        .email-form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .email-form-group input:focus,
+        .email-form-group textarea:focus {
+            outline: none;
+            border-color: rgba(249, 115, 22, 0.5);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .email-form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .email-form-group input::placeholder,
+        .email-form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .email-modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 24px;
+        }
+
+        .email-modal-btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .email-modal-btn-primary {
+            background: rgba(249, 115, 22, 0.15);
+            border: 1px solid rgba(249, 115, 22, 0.3);
+            color: #ffffff;
+        }
+
+        .email-modal-btn-primary:hover {
+            background: rgba(249, 115, 22, 0.25);
+            border-color: rgba(249, 115, 22, 0.5);
+        }
+
+        .email-modal-btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .email-modal-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .email-success {
+            padding: 12px 16px;
+            border-radius: 10px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            margin-bottom: 16px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            display: none;
+        }
+
+        .email-success.show {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -381,6 +545,11 @@
 
             <div class="tabs">
                 <div class="tab active" onclick="switchTab('overview')">Overview</div>
+                <div class="tab" onclick="switchTab('users')">Users</div>
+                <div class="tab" onclick="switchTab('subscriptions')">Subscriptions & Payments</div>
+                <div class="tab" onclick="switchTab('deals')">Deals & Revenue</div>
+                <div class="tab" onclick="switchTab('quotes')">Quotes</div>
+                <div class="tab" onclick="switchTab('business')">Business Intelligence</div>
                 <div class="tab" onclick="switchTab('submissions')">Submissions</div>
                 <div class="tab" onclick="switchTab('analytics')">Analytics</div>
                 <div class="tab" onclick="switchTab('errors')">Errors</div>
@@ -388,7 +557,32 @@
 
             <!-- Overview Tab -->
             <div id="overview" class="content active">
-                <div class="stats-grid">
+                <div style="margin-bottom: 30px;">
+                    <h2 style="font-family: 'Manrope', sans-serif; font-size: 28px; color: #ffffff; margin-bottom: 10px;">Dashboard Overview</h2>
+                    <p style="color: rgba(255, 255, 255, 0.6); font-size: 14px;">Key metrics and recent activity at a glance</p>
+                </div>
+
+                <div class="stats-grid" style="margin-bottom: 30px;">
+                    <div class="stat-card" style="background: linear-gradient(135deg, rgba(249, 115, 22, 0.15) 0%, rgba(249, 115, 22, 0.05) 100%); border: 1px solid rgba(249, 115, 22, 0.2);">
+                        <h3>Total Revenue</h3>
+                        <div class="value" id="overviewTotalRevenue" style="color: #f97316;">-</div>
+                        <div class="label">All revenue sources</div>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.05) 100%); border: 1px solid rgba(59, 130, 246, 0.2);">
+                        <h3>Total Users</h3>
+                        <div class="value" id="overviewTotalUsers" style="color: #3b82f6;">-</div>
+                        <div class="label">Registered users</div>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.05) 100%); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <h3>Active Subscriptions</h3>
+                        <div class="value" id="overviewActiveSubs" style="color: #10b981;">-</div>
+                        <div class="label">Paid subscribers</div>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(245, 158, 11, 0.05) 100%); border: 1px solid rgba(245, 158, 11, 0.2);">
+                        <h3>Monthly Recurring Revenue</h3>
+                        <div class="value" id="overviewMRR" style="color: #f59e0b;">-</div>
+                        <div class="label">MRR</div>
+                    </div>
                     <div class="stat-card">
                         <h3>Rate Submissions</h3>
                         <div class="value" id="rateSubmissionsCount">-</div>
@@ -400,20 +594,334 @@
                         <div class="label">Total reports</div>
                     </div>
                     <div class="stat-card">
-                        <h3>Active Users</h3>
-                        <div class="value" id="activeUsersCount">-</div>
-                        <div class="label">Unique users</div>
+                        <h3>User Feedback</h3>
+                        <div class="value" id="userFeedbackCount">-</div>
+                        <div class="label">Feedback received</div>
                     </div>
                     <div class="stat-card">
-                        <h3>Total Submissions</h3>
-                        <div class="value" id="totalSubmissionsCount">-</div>
-                        <div class="label">All submissions</div>
+                        <h3>Active Users (30d)</h3>
+                        <div class="value" id="activeUsersCount">-</div>
+                        <div class="label">Monthly active</div>
                     </div>
                 </div>
 
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+                    <div class="table-container">
+                        <h3>Recent Submissions</h3>
+                        <div id="recentActivity" style="max-height: 400px; overflow-y: auto;">
+                            <div class="loading">Loading...</div>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <h3>Quick Actions</h3>
+                        <div style="padding: 20px;">
+                            <button 
+                                onclick="switchTab('subscriptions')" 
+                                style="width: 100%; padding: 14px; margin-bottom: 12px; background: rgba(249, 115, 22, 0.15); border: 1px solid rgba(249, 115, 22, 0.3); border-radius: 10px; color: #ffffff; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.3s; text-align: left;"
+                                onmouseover="this.style.background='rgba(249, 115, 22, 0.25)'"
+                                onmouseout="this.style.background='rgba(249, 115, 22, 0.15)'"
+                            >
+                                📊 View Subscriptions & Revenue
+                            </button>
+                            <button 
+                                onclick="switchTab('submissions')" 
+                                style="width: 100%; padding: 14px; margin-bottom: 12px; background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 10px; color: #ffffff; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.3s; text-align: left;"
+                                onmouseover="this.style.background='rgba(59, 130, 246, 0.25)'"
+                                onmouseout="this.style.background='rgba(59, 130, 246, 0.15)'"
+                            >
+                                💬 Review Feedback & Reports
+                            </button>
+                            <button 
+                                onclick="switchTab('users')" 
+                                style="width: 100%; padding: 14px; margin-bottom: 12px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 10px; color: #ffffff; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.3s; text-align: left;"
+                                onmouseover="this.style.background='rgba(16, 185, 129, 0.25)'"
+                                onmouseout="this.style.background='rgba(16, 185, 129, 0.15)'"
+                            >
+                                👥 Manage Users
+                            </button>
+                            <button 
+                                onclick="switchTab('business')" 
+                                style="width: 100%; padding: 14px; background: rgba(139, 92, 246, 0.15); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 10px; color: #ffffff; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.3s; text-align: left;"
+                                onmouseover="this.style.background='rgba(139, 92, 246, 0.25)'"
+                                onmouseout="this.style.background='rgba(139, 92, 246, 0.15)'"
+                            >
+                                📈 Business Intelligence
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users Tab -->
+            <div id="users" class="content">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Users</h3>
+                        <div class="value" id="usersTotalCount">-</div>
+                        <div class="label">All registered users</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Active Users</h3>
+                        <div class="value" id="usersActiveCount">-</div>
+                        <div class="label">Active in last 7 days</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Subscribed Users</h3>
+                        <div class="value" id="usersSubscribedCount">-</div>
+                        <div class="label">Paid subscriptions</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Free Users</h3>
+                        <div class="value" id="usersFreeCount">-</div>
+                        <div class="label">Not subscribed</div>
+                    </div>
+                </div>
                 <div class="table-container">
-                    <h3>Recent Activity</h3>
-                    <div id="recentActivity">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3 style="margin: 0;">All Users</h3>
+                        <div style="display: flex; gap: 12px; align-items: center;">
+                            <input 
+                                type="text" 
+                                id="usersSearch" 
+                                placeholder="Search users..." 
+                                style="padding: 10px 16px; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; background: rgba(255, 255, 255, 0.05); color: #ffffff; font-size: 14px; width: 250px; font-family: 'Inter', sans-serif;"
+                                onkeyup="filterUsers()"
+                            />
+                            <button 
+                                onclick="openEmailModal()" 
+                                style="padding: 10px 20px; background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 10px; color: #ffffff; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.3s;"
+                                onmouseover="this.style.background='rgba(59, 130, 246, 0.25)'"
+                                onmouseout="this.style.background='rgba(59, 130, 246, 0.15)'"
+                            >
+                                Send Email
+                            </button>
+                            <button 
+                                onclick="exportUsersCSV()" 
+                                style="padding: 10px 20px; background: rgba(249, 115, 22, 0.15); border: 1px solid rgba(249, 115, 22, 0.3); border-radius: 10px; color: #ffffff; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.3s;"
+                                onmouseover="this.style.background='rgba(249, 115, 22, 0.25)'"
+                                onmouseout="this.style.background='rgba(249, 115, 22, 0.15)'"
+                            >
+                                Export CSV
+                            </button>
+                        </div>
+                    </div>
+                    <div id="usersList">
+                        <div class="loading">Loading...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Deals & Revenue Tab -->
+            <div id="deals" class="content">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Deals</h3>
+                        <div class="value" id="dealsTotalCount">-</div>
+                        <div class="label">All deals tracked</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Revenue</h3>
+                        <div class="value" id="dealsTotalRevenue">-</div>
+                        <div class="label">Total value tracked</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Active Deals</h3>
+                        <div class="value" id="dealsActiveCount">-</div>
+                        <div class="label">Currently active</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Completed Deals</h3>
+                        <div class="value" id="dealsCompletedCount">-</div>
+                        <div class="label">Successfully completed</div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3 style="margin: 0;">Recent Deals</h3>
+                        <button 
+                            onclick="exportDealsCSV()" 
+                            style="padding: 10px 20px; background: rgba(249, 115, 22, 0.15); border: 1px solid rgba(249, 115, 22, 0.3); border-radius: 10px; color: #ffffff; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.3s;"
+                            onmouseover="this.style.background='rgba(249, 115, 22, 0.25)'"
+                            onmouseout="this.style.background='rgba(249, 115, 22, 0.15)'"
+                        >
+                            Export CSV
+                        </button>
+                    </div>
+                    <div id="dealsList">
+                        <div class="loading">Loading...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subscriptions & Payments Tab -->
+            <div id="subscriptions" class="content">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Monthly Recurring Revenue</h3>
+                        <div class="value" id="subscriptionsMRR">-</div>
+                        <div class="label">MRR</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Annual Recurring Revenue</h3>
+                        <div class="value" id="subscriptionsARR">-</div>
+                        <div class="label">ARR</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Active Subscriptions</h3>
+                        <div class="value" id="subscriptionsActive">-</div>
+                        <div class="label">Currently active</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Conversion Rate</h3>
+                        <div class="value" id="subscriptionsConversion">-</div>
+                        <div class="label">Free to paid</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Churn Rate</h3>
+                        <div class="value" id="subscriptionsChurn">-</div>
+                        <div class="label">Monthly churn</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Average Revenue Per User</h3>
+                        <div class="value" id="subscriptionsARPU">-</div>
+                        <div class="label">ARPU</div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3 style="margin: 0;">Subscription Plans Breakdown</h3>
+                        <button 
+                            onclick="exportSubscriptionsCSV()" 
+                            style="padding: 10px 20px; background: rgba(249, 115, 22, 0.15); border: 1px solid rgba(249, 115, 22, 0.3); border-radius: 10px; color: #ffffff; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.3s;"
+                            onmouseover="this.style.background='rgba(249, 115, 22, 0.25)'"
+                            onmouseout="this.style.background='rgba(249, 115, 22, 0.15)'"
+                        >
+                            Export CSV
+                        </button>
+                    </div>
+                    <div id="subscriptionsList">
+                        <div class="loading">Loading...</div>
+                    </div>
+                </div>
+                <div class="table-container" style="margin-top: 30px;">
+                    <h3>Monthly Revenue Trend</h3>
+                    <div id="revenueChart" style="min-height: 300px; padding: 20px;">
+                        <div class="loading">Loading chart...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Business Intelligence Tab -->
+            <div id="business" class="content">
+                <div style="margin-bottom: 30px;">
+                    <h2 style="font-family: 'Manrope', sans-serif; font-size: 28px; color: #ffffff; margin-bottom: 10px;">Business Intelligence Dashboard</h2>
+                    <p style="color: rgba(255, 255, 255, 0.6); font-size: 14px;">Comprehensive metrics for due diligence, valuation, and business insights</p>
+                </div>
+
+                <!-- Key Metrics Grid -->
+                <div class="stats-grid" style="margin-bottom: 30px;">
+                    <div class="stat-card">
+                        <h3>Total Revenue</h3>
+                        <div class="value" id="biTotalRevenue">-</div>
+                        <div class="label">All revenue sources</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Users</h3>
+                        <div class="value" id="biTotalUsers">-</div>
+                        <div class="label">All registered users</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Active Users (30d)</h3>
+                        <div class="value" id="biActiveUsers">-</div>
+                        <div class="label">Monthly active</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>ARR</h3>
+                        <div class="value" id="biARR">-</div>
+                        <div class="label">Annual recurring</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Lifetime Value</h3>
+                        <div class="value" id="biLTV">-</div>
+                        <div class="label">Customer LTV</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Retention Rate</h3>
+                        <div class="value" id="biRetention">-</div>
+                        <div class="label">User retention</div>
+                    </div>
+                </div>
+
+                <!-- Revenue Breakdown -->
+                <div class="table-container" style="margin-bottom: 30px;">
+                    <h3>Revenue Breakdown</h3>
+                    <div id="revenueBreakdown" style="padding: 20px;">
+                        <div class="loading">Loading...</div>
+                    </div>
+                </div>
+
+                <!-- Product Metrics -->
+                <div class="table-container" style="margin-bottom: 30px;">
+                    <h3>Product Usage Metrics</h3>
+                    <div id="productMetrics" style="padding: 20px;">
+                        <div class="loading">Loading...</div>
+                    </div>
+                </div>
+
+                <!-- Growth Trends -->
+                <div class="table-container" style="margin-bottom: 30px;">
+                    <h3>User Growth Trend (Last 12 Months)</h3>
+                    <div id="growthChart" style="min-height: 300px; padding: 20px;">
+                        <div class="loading">Loading chart...</div>
+                    </div>
+                </div>
+
+                <!-- Compliance & Legal -->
+                <div class="table-container">
+                    <h3>Compliance & Legal Status</h3>
+                    <div id="complianceStatus" style="padding: 20px;">
+                        <div class="loading">Loading...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quotes Tab -->
+            <div id="quotes" class="content">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Quotes</h3>
+                        <div class="value" id="quotesTotalCount">-</div>
+                        <div class="label">All quotes generated</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Accepted Quotes</h3>
+                        <div class="value" id="quotesAcceptedCount">-</div>
+                        <div class="label">Successfully accepted</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Quote Value</h3>
+                        <div class="value" id="quotesTotalValue">-</div>
+                        <div class="label">All quotes combined</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Accepted Value</h3>
+                        <div class="value" id="quotesAcceptedValue">-</div>
+                        <div class="label">Value from accepted</div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3 style="margin: 0;">Recent Quotes</h3>
+                        <button 
+                            onclick="exportQuotesCSV()" 
+                            style="padding: 10px 20px; background: rgba(249, 115, 22, 0.15); border: 1px solid rgba(249, 115, 22, 0.3); border-radius: 10px; color: #ffffff; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.3s;"
+                            onmouseover="this.style.background='rgba(249, 115, 22, 0.25)'"
+                            onmouseout="this.style.background='rgba(249, 115, 22, 0.15)'"
+                        >
+                            Export CSV
+                        </button>
+                    </div>
+                    <div id="quotesList">
                         <div class="loading">Loading...</div>
                     </div>
                 </div>
@@ -421,13 +929,29 @@
 
             <!-- Submissions Tab -->
             <div id="submissions" class="content">
-                <div class="filter-bar">
+                <div style="margin-bottom: 30px;">
+                    <h2 style="font-family: 'Manrope', sans-serif; font-size: 28px; color: #ffffff; margin-bottom: 10px;">User Submissions & Feedback</h2>
+                    <p style="color: rgba(255, 255, 255, 0.6); font-size: 14px;">Review and respond to user feedback, bug reports, and rate submissions</p>
+                </div>
+
+                <div class="filter-bar" style="margin-bottom: 24px;">
                     <div class="filter-btn active" onclick="filterSubmissions('all')">All</div>
                     <div class="filter-btn" onclick="filterSubmissions('rates')">Rate Submissions</div>
                     <div class="filter-btn" onclick="filterSubmissions('bugs')">Bug Reports</div>
+                    <div class="filter-btn" onclick="filterSubmissions('feedback')">User Feedback</div>
                 </div>
                 <div class="table-container">
-                    <h3>Submissions</h3>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3 style="margin: 0;">Submissions</h3>
+                        <button 
+                            onclick="exportSubmissionsCSV()" 
+                            style="padding: 10px 20px; background: rgba(249, 115, 22, 0.15); border: 1px solid rgba(249, 115, 22, 0.3); border-radius: 10px; color: #ffffff; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.3s;"
+                            onmouseover="this.style.background='rgba(249, 115, 22, 0.25)'"
+                            onmouseout="this.style.background='rgba(249, 115, 22, 0.15)'"
+                        >
+                            Export CSV
+                        </button>
+                    </div>
                     <div id="submissionsList">
                         <div class="loading">Loading...</div>
                     </div>
@@ -492,6 +1016,53 @@
         </div>
     </div>
 
+    <!-- Email Modal -->
+    <div id="emailModal" class="email-modal">
+        <div class="email-modal-content">
+            <div class="email-modal-header">
+                <h2>Send Email to User</h2>
+                <button class="email-modal-close" onclick="closeEmailModal()">×</button>
+            </div>
+            <div id="emailSuccess" class="email-success"></div>
+            <form id="emailForm" onsubmit="sendEmail(event)">
+                <div class="email-form-group">
+                    <label for="emailTo">To (Email Address)</label>
+                    <input 
+                        type="email" 
+                        id="emailTo" 
+                        required
+                        placeholder="user@example.com"
+                    />
+                </div>
+                <div class="email-form-group">
+                    <label for="emailSubject">Subject</label>
+                    <input 
+                        type="text" 
+                        id="emailSubject" 
+                        required
+                        placeholder="Email subject"
+                    />
+                </div>
+                <div class="email-form-group">
+                    <label for="emailMessage">Message</label>
+                    <textarea 
+                        id="emailMessage" 
+                        required
+                        placeholder="Enter your message here..."
+                    ></textarea>
+                </div>
+                <div class="email-modal-actions">
+                    <button type="button" class="email-modal-btn email-modal-btn-secondary" onclick="closeEmailModal()">
+                        Cancel
+                    </button>
+                    <button type="submit" class="email-modal-btn email-modal-btn-primary">
+                        Send Email
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
         // Admin password (in production, use environment variable)
         const ADMIN_PASSWORD = 'ora_admin_2025';
@@ -509,7 +1080,7 @@
             if (password === ADMIN_PASSWORD) {
                 // Get admin token from backend
                 try {
-                    const response = await fetch('/api/admin/auth', {
+                    const response = await fetch('/api/admin?type=auth', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ password })
@@ -564,7 +1135,17 @@
             document.getElementById(tabName).classList.add('active');
 
             // Load data for the tab
-            if (tabName === 'submissions') {
+            if (tabName === 'users') {
+                loadUsers();
+            } else if (tabName === 'subscriptions') {
+                loadSubscriptions();
+            } else if (tabName === 'deals') {
+                loadDeals();
+            } else if (tabName === 'quotes') {
+                loadQuotes();
+            } else if (tabName === 'business') {
+                loadBusinessIntelligence();
+            } else if (tabName === 'submissions') {
                 loadSubmissions();
             } else if (tabName === 'analytics') {
                 loadAnalytics();
@@ -582,49 +1163,608 @@
             loadSubmissions();
         }
 
+        function openReplyModal(userEmail, submissionId, submissionType, submissionDataStr) {
+            const modal = document.getElementById('emailModal');
+            const emailTo = document.getElementById('emailTo');
+            const emailSubject = document.getElementById('emailSubject');
+            const emailMessage = document.getElementById('emailMessage');
+            
+            // Parse submission data if it's a string
+            let submissionData = {};
+            try {
+                if (typeof submissionDataStr === 'string') {
+                    submissionData = JSON.parse(submissionDataStr.replace(/&quot;/g, '"'));
+                } else {
+                    submissionData = submissionDataStr;
+                }
+            } catch (e) {
+                submissionData = {};
+            }
+            
+            emailTo.value = userEmail || '';
+            
+            // Create a contextual subject based on submission type
+            let subject = '';
+            if (submissionType === 'Bug Report') {
+                subject = `Re: Your Bug Report - ${submissionData.title || 'Issue'}`;
+            } else if (submissionType === 'User Feedback') {
+                subject = `Re: Your Feedback - Thank You!`;
+            } else if (submissionType === 'Rate Submission') {
+                subject = `Re: Your Rate Submission - Thank You!`;
+            } else {
+                subject = `Re: Your Submission`;
+            }
+            
+            emailSubject.value = subject;
+            
+            // Pre-fill message with context
+            let message = `Hi,\n\n`;
+            if (submissionType === 'Bug Report') {
+                message += `Thank you for reporting this issue. We've received your bug report about "${submissionData.title || 'the issue'}" and our team is looking into it.\n\n`;
+                if (submissionData.description) {
+                    message += `Regarding: ${submissionData.description}\n\n`;
+                }
+            } else if (submissionType === 'User Feedback') {
+                message += `Thank you for your feedback! We really appreciate you taking the time to share your thoughts with us.\n\n`;
+                if (submissionData.message) {
+                    message += `Regarding: ${submissionData.message}\n\n`;
+                }
+            } else {
+                message += `Thank you for your submission! We appreciate your contribution.\n\n`;
+            }
+            message += `Best regards,\nThe ORA Team`;
+            
+            emailMessage.value = message;
+            modal.classList.add('active');
+        }
+
+        // Store data for export
+        let allUsersData = [];
+        let allDealsData = [];
+        let allQuotesData = [];
+        let allSubmissionsData = [];
+        let allSubscriptionsData = [];
+
         async function loadAllData() {
             await Promise.all([
                 loadOverview(),
+                loadUsers(),
+                loadSubscriptions(),
+                loadDeals(),
+                loadQuotes(),
+                loadBusinessIntelligence(),
                 loadSubmissions(),
                 loadAnalytics(),
                 loadErrors()
             ]);
         }
 
-        async function loadOverview() {
+        async function loadUsers() {
             try {
                 const adminToken = localStorage.getItem('admin_token') || '';
-                const response = await fetch(`/api/admin/overview?token=${adminToken}`);
+                const response = await fetch(`/api/admin?type=users&token=${adminToken}`);
                 const data = await response.json();
 
-                document.getElementById('rateSubmissionsCount').textContent = data.rateSubmissions || 0;
-                document.getElementById('bugReportsCount').textContent = data.bugReports || 0;
-                document.getElementById('activeUsersCount').textContent = data.activeUsers || 0;
-                document.getElementById('totalSubmissionsCount').textContent = data.totalSubmissions || 0;
+                document.getElementById('usersTotalCount').textContent = data.totalUsers || 0;
+                document.getElementById('usersActiveCount').textContent = data.activeUsers || 0;
+                document.getElementById('usersSubscribedCount').textContent = data.subscribedUsers || 0;
+                document.getElementById('usersFreeCount').textContent = (data.totalUsers || 0) - (data.subscribedUsers || 0);
 
-                // Render recent activity
-                const activityEl = document.getElementById('recentActivity');
-                if (data.recentActivity && data.recentActivity.length > 0) {
-                    activityEl.innerHTML = `
+                // Store for export and filtering
+                allUsersData = data.users || [];
+                renderUsersTable(allUsersData);
+            } catch (error) {
+                console.error('Error loading users:', error);
+                document.getElementById('usersList').innerHTML = '<div class="error">Failed to load users</div>';
+            }
+        }
+
+        function renderUsersTable(users) {
+            const usersEl = document.getElementById('usersList');
+            if (users && users.length > 0) {
+                usersEl.innerHTML = `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Signup Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${users.map(user => `
+                                <tr>
+                                    <td>${user.displayName}</td>
+                                    <td class="email-clickable" data-email="${user.email}">${user.email}</td>
+                                    <td>
+                                        ${user.isSubscribed ? '<span class="badge rate">Subscribed</span>' : '<span class="badge" style="background: rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.6);">Free</span>'}
+                                        ${user.isActive ? '<span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #10b981; margin-left: 8px;">Active</span>' : ''}
+                                    </td>
+                                    <td>${new Date(user.createdAt).toLocaleDateString()}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+                
+                // Add click handlers to email cells
+                document.querySelectorAll('.email-clickable').forEach(cell => {
+                    if (cell.textContent !== 'N/A') {
+                        cell.style.cursor = 'pointer';
+                        cell.style.color = 'rgba(59, 130, 246, 0.9)';
+                        cell.style.textDecoration = 'underline';
+                        cell.onclick = () => openEmailModal(cell.textContent.trim());
+                    }
+                });
+            } else {
+                usersEl.innerHTML = '<div class="empty-state">No users found</div>';
+            }
+        }
+
+        function filterUsers() {
+            const searchTerm = document.getElementById('usersSearch').value.toLowerCase();
+            const filtered = allUsersData.filter(user => 
+                user.displayName.toLowerCase().includes(searchTerm) ||
+                user.email.toLowerCase().includes(searchTerm)
+            );
+            renderUsersTable(filtered);
+        }
+
+        function exportUsersCSV() {
+            if (allUsersData.length === 0) {
+                alert('No users data to export');
+                return;
+            }
+            
+            const headers = ['Name', 'Email', 'Subscribed', 'Active', 'Signup Date'];
+            const rows = allUsersData.map(user => [
+                user.displayName || '',
+                user.email || '',
+                user.isSubscribed ? 'Yes' : 'No',
+                user.isActive ? 'Yes' : 'No',
+                new Date(user.createdAt).toLocaleDateString()
+            ]);
+            
+            const csv = [headers.join(','), ...rows.map(row => row.map(cell => `"${cell}"`).join(','))].join('\n');
+            downloadCSV(csv, 'ora_users_' + new Date().toISOString().split('T')[0] + '.csv');
+        }
+
+        async function loadDeals() {
+            try {
+                const adminToken = localStorage.getItem('admin_token') || '';
+                const response = await fetch(`/api/admin?type=deals&token=${adminToken}`);
+                const data = await response.json();
+
+                document.getElementById('dealsTotalCount').textContent = data.totalDeals || 0;
+                document.getElementById('dealsTotalRevenue').textContent = `$${(data.totalRevenue || 0).toLocaleString()}`;
+                document.getElementById('dealsActiveCount').textContent = data.statusBreakdown?.active || 0;
+                document.getElementById('dealsCompletedCount').textContent = data.statusBreakdown?.completed || 0;
+
+                // Store for export
+                allDealsData = data.allDeals || data.deals || [];
+
+                const dealsEl = document.getElementById('dealsList');
+                if (data.deals && data.deals.length > 0) {
+                    dealsEl.innerHTML = `
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Type</th>
-                                    <th>Details</th>
-                                    <th>Date</th>
+                                    <th>Title</th>
+                                    <th>Brand</th>
+                                    <th>Status</th>
+                                    <th>Value</th>
+                                    <th>Deadline</th>
+                                    <th>Created</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                ${data.recentActivity.map(item => `
+                                ${data.deals.map(deal => `
                                     <tr>
-                                        <td><span class="badge ${item.type === 'rate_submission' ? 'rate' : 'bug'}">${item.type === 'rate_submission' ? 'Rate' : 'Bug'}</span></td>
-                                        <td>${item.details || 'N/A'}</td>
-                                        <td>${new Date(item.date).toLocaleString()}</td>
+                                        <td>${deal.title || 'N/A'}</td>
+                                        <td>${deal.brandName || 'N/A'}</td>
+                                        <td>
+                                            <span class="badge" style="background: ${
+                                                deal.status === 'active' ? 'rgba(16, 185, 129, 0.2); color: #10b981' :
+                                                deal.status === 'completed' ? 'rgba(59, 130, 246, 0.2); color: #3b82f6' :
+                                                deal.status === 'pending' ? 'rgba(245, 158, 11, 0.2); color: #f59e0b' :
+                                                'rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.6)'
+                                            }">
+                                                ${deal.status || 'N/A'}
+                                            </span>
+                                        </td>
+                                        <td>${deal.currency || 'USD'} ${(deal.value || 0).toLocaleString()}</td>
+                                        <td>${deal.deadline ? new Date(deal.deadline).toLocaleDateString() : 'N/A'}</td>
+                                        <td>${new Date(deal.createdAt).toLocaleDateString()}</td>
                                     </tr>
                                 `).join('')}
                             </tbody>
                         </table>
                     `;
+                } else {
+                    dealsEl.innerHTML = '<div class="empty-state">No deals found</div>';
+                }
+            } catch (error) {
+                console.error('Error loading deals:', error);
+                document.getElementById('dealsList').innerHTML = '<div class="error">Failed to load deals</div>';
+            }
+        }
+
+        function exportDealsCSV() {
+            if (allDealsData.length === 0) {
+                alert('No deals data to export');
+                return;
+            }
+            
+            const headers = ['Title', 'Brand', 'Status', 'Value', 'Currency', 'Deadline', 'Created'];
+            const rows = allDealsData.map(deal => [
+                deal.title || '',
+                deal.brand_name || '',
+                deal.status || '',
+                deal.value || 0,
+                deal.currency || 'USD',
+                deal.deadline ? new Date(deal.deadline).toLocaleDateString() : '',
+                new Date(deal.created_at).toLocaleDateString()
+            ]);
+            
+            const csv = [headers.join(','), ...rows.map(row => row.map(cell => `"${cell}"`).join(','))].join('\n');
+            downloadCSV(csv, 'ora_deals_' + new Date().toISOString().split('T')[0] + '.csv');
+        }
+
+        async function loadQuotes() {
+            try {
+                const adminToken = localStorage.getItem('admin_token') || '';
+                const response = await fetch(`/api/admin?type=quotes&token=${adminToken}`);
+                const data = await response.json();
+
+                document.getElementById('quotesTotalCount').textContent = data.totalQuotes || 0;
+                document.getElementById('quotesAcceptedCount').textContent = data.statusBreakdown?.accepted || 0;
+                document.getElementById('quotesTotalValue').textContent = `$${(data.totalQuoteValue || 0).toLocaleString()}`;
+                document.getElementById('quotesAcceptedValue').textContent = `$${(data.acceptedQuoteValue || 0).toLocaleString()}`;
+
+                // Store for export
+                allQuotesData = data.quotes || [];
+
+                const quotesEl = document.getElementById('quotesList');
+                if (data.quotes && data.quotes.length > 0) {
+                    quotesEl.innerHTML = `
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Quote Name</th>
+                                    <th>Platform</th>
+                                    <th>Client</th>
+                                    <th>Status</th>
+                                    <th>Rate</th>
+                                    <th>Followers</th>
+                                    <th>Created</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.quotes.map(quote => `
+                                    <tr>
+                                        <td>${quote.quoteName || 'N/A'}</td>
+                                        <td>${quote.platform || 'N/A'}</td>
+                                        <td>${quote.clientName || 'N/A'}</td>
+                                        <td>
+                                            <span class="badge" style="background: ${
+                                                quote.status === 'accepted' ? 'rgba(16, 185, 129, 0.2); color: #10b981' :
+                                                quote.status === 'sent' ? 'rgba(59, 130, 246, 0.2); color: #3b82f6' :
+                                                quote.status === 'rejected' ? 'rgba(255, 59, 48, 0.2); color: #ff3b30' :
+                                                quote.status === 'expired' ? 'rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.6)' :
+                                                'rgba(245, 158, 11, 0.2); color: #f59e0b'
+                                            }">
+                                                ${quote.status || 'draft'}
+                                            </span>
+                                        </td>
+                                        <td>$${(quote.calculatedRate || 0).toLocaleString()}</td>
+                                        <td>${(quote.followerCount || 0).toLocaleString()}</td>
+                                        <td>${new Date(quote.createdAt).toLocaleDateString()}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    `;
+                } else {
+                    quotesEl.innerHTML = '<div class="empty-state">No quotes found</div>';
+                }
+            } catch (error) {
+                console.error('Error loading quotes:', error);
+                document.getElementById('quotesList').innerHTML = '<div class="error">Failed to load quotes</div>';
+            }
+        }
+
+        function exportQuotesCSV() {
+            if (allQuotesData.length === 0) {
+                alert('No quotes data to export');
+                return;
+            }
+            
+            const headers = ['Quote Name', 'Platform', 'Client', 'Status', 'Rate', 'Followers', 'Created'];
+            const rows = allQuotesData.map(quote => [
+                quote.quoteName || '',
+                quote.platform || '',
+                quote.clientName || '',
+                quote.status || '',
+                quote.calculatedRate || 0,
+                quote.followerCount || 0,
+                new Date(quote.createdAt).toLocaleDateString()
+            ]);
+            
+            const csv = [headers.join(','), ...rows.map(row => row.map(cell => `"${cell}"`).join(','))].join('\n');
+            downloadCSV(csv, 'ora_quotes_' + new Date().toISOString().split('T')[0] + '.csv');
+        }
+
+        function downloadCSV(csv, filename) {
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        async function loadSubscriptions() {
+            try {
+                const adminToken = localStorage.getItem('admin_token') || '';
+                const response = await fetch(`/api/admin?type=subscriptions&token=${adminToken}`);
+                const data = await response.json();
+
+                // Update stats
+                document.getElementById('subscriptionsMRR').textContent = `$${(data.revenue?.mrr || 0).toFixed(2)}`;
+                document.getElementById('subscriptionsARR').textContent = `$${(data.revenue?.arr || 0).toFixed(2)}`;
+                document.getElementById('subscriptionsActive').textContent = data.stats?.active || 0;
+                document.getElementById('subscriptionsConversion').textContent = `${((data.stats?.active || 0) / Math.max(data.stats?.total || 1, 1) * 100).toFixed(1)}%`;
+                document.getElementById('subscriptionsChurn').textContent = `${(data.churn?.churnRate || 0).toFixed(2)}%`;
+                document.getElementById('subscriptionsARPU').textContent = `$${(data.revenue?.averageRevenuePerUser || 0).toFixed(2)}`;
+
+                // Store for export
+                allSubscriptionsData = data.subscriptions || [];
+
+                // Render plan breakdown
+                const subscriptionsEl = document.getElementById('subscriptionsList');
+                if (data.planBreakdown) {
+                    subscriptionsEl.innerHTML = `
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Plan</th>
+                                    <th>Subscribers</th>
+                                    <th>Status</th>
+                                    <th>Monthly Revenue</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${Object.entries(data.planBreakdown).map(([plan, count]) => {
+                                    const planPrices = { free: 0, creator: 12.99, pro: 24.99, premium: 49.99 };
+                                    const revenue = (planPrices[plan] || 0) * count;
+                                    return `
+                                        <tr>
+                                            <td style="text-transform: capitalize; font-weight: 600;">${plan}</td>
+                                            <td>${count}</td>
+                                            <td>
+                                                <span class="badge" style="background: ${
+                                                    plan === 'free' ? 'rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.6)' :
+                                                    'rgba(16, 185, 129, 0.2); color: #10b981'
+                                                }">
+                                                    ${plan === 'free' ? 'Free' : 'Paid'}
+                                                </span>
+                                            </td>
+                                            <td>$${revenue.toFixed(2)}</td>
+                                        </tr>
+                                    `;
+                                }).join('')}
+                            </tbody>
+                        </table>
+                    `;
+                } else {
+                    subscriptionsEl.innerHTML = '<div class="empty-state">No subscription data found</div>';
+                }
+
+                // Render revenue chart
+                if (data.monthlyRevenue && data.monthlyRevenue.length > 0) {
+                    const chartEl = document.getElementById('revenueChart');
+                    const maxRevenue = Math.max(...data.monthlyRevenue.map(m => m.revenue));
+                    chartEl.innerHTML = `
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            ${data.monthlyRevenue.map(month => {
+                                const percentage = maxRevenue > 0 ? (month.revenue / maxRevenue) * 100 : 0;
+                                return `
+                                    <div style="display: flex; align-items: center; gap: 12px;">
+                                        <div style="flex: 0 0 100px; font-size: 14px; color: rgba(255, 255, 255, 0.8);">${month.month}</div>
+                                        <div style="flex: 1; height: 32px; background: rgba(255, 255, 255, 0.05); border-radius: 16px; overflow: hidden; position: relative;">
+                                            <div style="height: 100%; width: ${percentage}%; background: rgba(249, 115, 22, 0.4); border-radius: 16px; transition: width 0.3s; display: flex; align-items: center; padding: 0 12px;">
+                                                <span style="color: #ffffff; font-size: 12px; font-weight: 600;">$${month.revenue.toFixed(2)}</span>
+                                            </div>
+                                        </div>
+                                        <div style="flex: 0 0 80px; text-align: right; font-size: 14px; color: rgba(255, 255, 255, 0.6);">${month.subscribers} users</div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading subscriptions:', error);
+                document.getElementById('subscriptionsList').innerHTML = '<div class="error">Failed to load subscriptions</div>';
+            }
+        }
+
+        function exportSubscriptionsCSV() {
+            if (allSubscriptionsData.length === 0) {
+                alert('No subscriptions data to export');
+                return;
+            }
+            
+            const headers = ['User ID', 'Plan', 'Status', 'Created', 'Period Start', 'Period End'];
+            const rows = allSubscriptionsData.map(sub => [
+                sub.user_id || '',
+                sub.plan || '',
+                sub.status || '',
+                new Date(sub.created_at).toLocaleDateString(),
+                sub.current_period_start ? new Date(sub.current_period_start).toLocaleDateString() : '',
+                sub.current_period_end ? new Date(sub.current_period_end).toLocaleDateString() : ''
+            ]);
+            
+            const csv = [headers.join(','), ...rows.map(row => row.map(cell => `"${cell}"`).join(','))].join('\n');
+            downloadCSV(csv, 'ora_subscriptions_' + new Date().toISOString().split('T')[0] + '.csv');
+        }
+
+        async function loadBusinessIntelligence() {
+            try {
+                const adminToken = localStorage.getItem('admin_token') || '';
+                const response = await fetch(`/api/admin?type=business&token=${adminToken}`);
+                const data = await response.json();
+
+                // Update key metrics
+                document.getElementById('biTotalRevenue').textContent = `$${(data.revenue?.total || 0).toLocaleString()}`;
+                document.getElementById('biTotalUsers').textContent = (data.users?.total || 0).toLocaleString();
+                document.getElementById('biActiveUsers').textContent = (data.users?.active || 0).toLocaleString();
+                document.getElementById('biARR').textContent = `$${(data.revenue?.arr || 0).toLocaleString()}`;
+                document.getElementById('biLTV').textContent = `$${(data.revenue?.lifetimeValue || 0).toFixed(2)}`;
+                document.getElementById('biRetention').textContent = `${(data.subscriptions?.retentionRate || 0).toFixed(1)}%`;
+
+                // Revenue breakdown
+                const revenueBreakdownEl = document.getElementById('revenueBreakdown');
+                revenueBreakdownEl.innerHTML = `
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                        <div style="padding: 20px; background: rgba(255, 255, 255, 0.05); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                            <div style="font-size: 12px; color: rgba(255, 255, 255, 0.6); margin-bottom: 8px;">Subscriptions</div>
+                            <div style="font-size: 24px; font-weight: 600; color: #ffffff;">$${(data.revenue?.fromSubscriptions || 0).toFixed(2)}</div>
+                        </div>
+                        <div style="padding: 20px; background: rgba(255, 255, 255, 0.05); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                            <div style="font-size: 12px; color: rgba(255, 255, 255, 0.6); margin-bottom: 8px;">Deals</div>
+                            <div style="font-size: 24px; font-weight: 600; color: #ffffff;">$${(data.revenue?.fromDeals || 0).toFixed(2)}</div>
+                        </div>
+                        <div style="padding: 20px; background: rgba(255, 255, 255, 0.05); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                            <div style="font-size: 12px; color: rgba(255, 255, 255, 0.6); margin-bottom: 8px;">Quotes</div>
+                            <div style="font-size: 24px; font-weight: 600; color: #ffffff;">$${(data.revenue?.fromQuotes || 0).toFixed(2)}</div>
+                        </div>
+                    </div>
+                `;
+
+                // Product metrics
+                const productMetricsEl = document.getElementById('productMetrics');
+                productMetricsEl.innerHTML = `
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px;">
+                        <div style="text-align: center; padding: 16px; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
+                            <div style="font-size: 32px; font-weight: 600; color: #ffffff;">${data.product?.quotesGenerated || 0}</div>
+                            <div style="font-size: 12px; color: rgba(255, 255, 255, 0.6); margin-top: 4px;">Quotes Generated</div>
+                        </div>
+                        <div style="text-align: center; padding: 16px; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
+                            <div style="font-size: 32px; font-weight: 600; color: #ffffff;">${data.product?.dealsTracked || 0}</div>
+                            <div style="font-size: 12px; color: rgba(255, 255, 255, 0.6); margin-top: 4px;">Deals Tracked</div>
+                        </div>
+                        <div style="text-align: center; padding: 16px; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
+                            <div style="font-size: 32px; font-weight: 600; color: #ffffff;">${data.product?.contractsAnalyzed || 0}</div>
+                            <div style="font-size: 12px; color: rgba(255, 255, 255, 0.6); margin-top: 4px;">Contracts Analyzed</div>
+                        </div>
+                        <div style="text-align: center; padding: 16px; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
+                            <div style="font-size: 32px; font-weight: 600; color: #ffffff;">${data.product?.mediaKitsCreated || 0}</div>
+                            <div style="font-size: 12px; color: rgba(255, 255, 255, 0.6); margin-top: 4px;">Media Kits Created</div>
+                        </div>
+                    </div>
+                `;
+
+                // Growth chart
+                if (data.growth?.userGrowth && data.growth.userGrowth.length > 0) {
+                    const growthChartEl = document.getElementById('growthChart');
+                    const maxUsers = Math.max(...data.growth.userGrowth.map(g => g.users));
+                    growthChartEl.innerHTML = `
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            ${data.growth.userGrowth.map(month => {
+                                const percentage = maxUsers > 0 ? (month.users / maxUsers) * 100 : 0;
+                                return `
+                                    <div style="display: flex; align-items: center; gap: 12px;">
+                                        <div style="flex: 0 0 100px; font-size: 14px; color: rgba(255, 255, 255, 0.8);">${month.month}</div>
+                                        <div style="flex: 1; height: 28px; background: rgba(255, 255, 255, 0.05); border-radius: 14px; overflow: hidden; position: relative;">
+                                            <div style="height: 100%; width: ${percentage}%; background: rgba(59, 130, 246, 0.4); border-radius: 14px; transition: width 0.3s; display: flex; align-items: center; padding: 0 12px;">
+                                                <span style="color: #ffffff; font-size: 12px; font-weight: 600;">${month.users}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    `;
+                }
+
+                // Compliance status
+                const complianceEl = document.getElementById('complianceStatus');
+                complianceEl.innerHTML = `
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px;">
+                        <div style="padding: 16px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 10px;">
+                            <div style="font-size: 14px; color: #10b981; font-weight: 600; margin-bottom: 8px;">GDPR Compliant</div>
+                            <div style="font-size: 12px; color: rgba(255, 255, 255, 0.6);">${data.compliance?.dataRetention?.gdprCompliant ? '✓ Yes' : '✗ No'}</div>
+                        </div>
+                        <div style="padding: 16px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px;">
+                            <div style="font-size: 14px; color: rgba(255, 255, 255, 0.8); font-weight: 600; margin-bottom: 8px;">Total Records</div>
+                            <div style="font-size: 24px; color: #ffffff; font-weight: 600;">${(data.compliance?.dataRetention?.totalRecords || 0).toLocaleString()}</div>
+                        </div>
+                        <div style="padding: 16px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px;">
+                            <div style="font-size: 14px; color: rgba(255, 255, 255, 0.8); font-weight: 600; margin-bottom: 8px;">Data Exports</div>
+                            <div style="font-size: 24px; color: #ffffff; font-weight: 600;">${data.compliance?.dataExports || 0}</div>
+                        </div>
+                        <div style="padding: 16px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px;">
+                            <div style="font-size: 14px; color: rgba(255, 255, 255, 0.8); font-weight: 600; margin-bottom: 8px;">Data Deletions</div>
+                            <div style="font-size: 24px; color: #ffffff; font-weight: 600;">${data.compliance?.dataDeletions || 0}</div>
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error loading business intelligence:', error);
+                document.getElementById('revenueBreakdown').innerHTML = '<div class="error">Failed to load business intelligence data</div>';
+            }
+        }
+
+        async function loadOverview() {
+            try {
+                const adminToken = localStorage.getItem('admin_token') || '';
+                
+                // Load multiple data sources
+                const [overviewRes, subscriptionsRes, businessRes] = await Promise.all([
+                    fetch(`/api/admin?type=overview&token=${adminToken}`),
+                    fetch(`/api/admin?type=subscriptions&token=${adminToken}`),
+                    fetch(`/api/admin?type=business&token=${adminToken}`)
+                ]);
+                
+                const overviewData = await overviewRes.json();
+                const subscriptionsData = await subscriptionsRes.json();
+                const businessData = await businessRes.json();
+
+                // Update submission counts
+                document.getElementById('rateSubmissionsCount').textContent = overviewData.rateSubmissions || 0;
+                document.getElementById('bugReportsCount').textContent = overviewData.bugReports || 0;
+                document.getElementById('userFeedbackCount').textContent = (overviewData.totalSubmissions || 0) - (overviewData.rateSubmissions || 0) - (overviewData.bugReports || 0);
+                document.getElementById('activeUsersCount').textContent = overviewData.activeUsers || 0;
+
+                // Update key metrics
+                document.getElementById('overviewTotalRevenue').textContent = `$${(businessData.revenue?.total || 0).toLocaleString()}`;
+                document.getElementById('overviewTotalUsers').textContent = (businessData.users?.total || 0).toLocaleString();
+                document.getElementById('overviewActiveSubs').textContent = (subscriptionsData.stats?.active || 0).toLocaleString();
+                document.getElementById('overviewMRR').textContent = `$${(subscriptionsData.revenue?.mrr || 0).toFixed(2)}`;
+
+                // Render recent activity
+                const activityEl = document.getElementById('recentActivity');
+                if (overviewData.recentActivity && overviewData.recentActivity.length > 0) {
+                    activityEl.innerHTML = overviewData.recentActivity.map(item => {
+                        const badgeColor = item.type === 'rate_submission' 
+                            ? 'rgba(16, 185, 129, 0.2); color: #10b981'
+                            : item.type === 'bug_report'
+                            ? 'rgba(255, 59, 48, 0.2); color: #ff3b30'
+                            : 'rgba(59, 130, 246, 0.2); color: #3b82f6';
+                        
+                        return `
+                            <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(255, 255, 255, 0.03); border-radius: 8px; margin-bottom: 8px;">
+                                <span class="badge" style="background: ${badgeColor}">${item.type === 'rate_submission' ? 'Rate' : item.type === 'bug_report' ? 'Bug' : 'Feedback'}</span>
+                                <span style="flex: 1; color: rgba(255, 255, 255, 0.8); font-size: 14px;">${item.details || 'N/A'}</span>
+                                <span style="color: rgba(255, 255, 255, 0.5); font-size: 12px;">${new Date(item.date).toLocaleDateString()}</span>
+                            </div>
+                        `;
+                    }).join('');
                 } else {
                     activityEl.innerHTML = '<div class="empty-state">No recent activity</div>';
                 }
@@ -637,32 +1777,82 @@
         async function loadSubmissions() {
             try {
                 const adminToken = localStorage.getItem('admin_token') || '';
-                const response = await fetch(`/api/admin/submissions?filter=${currentFilter}&token=${adminToken}`);
+                const response = await fetch(`/api/admin?type=submissions&filter=${currentFilter}&token=${adminToken}`);
                 const data = await response.json();
+
+                // Store for export (get all submissions, not just filtered)
+                if (currentFilter === 'all') {
+                    allSubmissionsData = data.submissions || [];
+                } else {
+                    // Load all for export
+                    const allResponse = await fetch(`/api/admin?type=submissions&filter=all&token=${adminToken}`);
+                    const allData = await allResponse.json();
+                    allSubmissionsData = allData.submissions || [];
+                }
 
                 const submissionsEl = document.getElementById('submissionsList');
                 if (data.submissions && data.submissions.length > 0) {
                     submissionsEl.innerHTML = `
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Type</th>
-                                    <th>Details</th>
-                                    <th>User Email</th>
-                                    <th>Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${data.submissions.map(sub => `
-                                    <tr>
-                                        <td><span class="badge ${sub.type === 'rate_submission' ? 'rate' : 'bug'}">${sub.type === 'rate_submission' ? 'Rate' : 'Bug'}</span></td>
-                                        <td>${sub.details || 'N/A'}</td>
-                                        <td>${sub.userEmail || 'N/A'}</td>
-                                        <td>${new Date(sub.submittedAt).toLocaleString()}</td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
+                        <div style="display: flex; flex-direction: column; gap: 16px;">
+                            ${data.submissions.map(sub => {
+                                const badgeColor = sub.type === 'rate_submission' 
+                                    ? 'rgba(16, 185, 129, 0.2); color: #10b981'
+                                    : sub.type === 'bug_report'
+                                    ? 'rgba(255, 59, 48, 0.2); color: #ff3b30'
+                                    : 'rgba(59, 130, 246, 0.2); color: #3b82f6';
+                                
+                                const typeLabel = sub.type === 'rate_submission' 
+                                    ? 'Rate Submission'
+                                    : sub.type === 'bug_report'
+                                    ? 'Bug Report'
+                                    : 'User Feedback';
+                                
+                                return `
+                                    <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; transition: all 0.3s;" 
+                                         onmouseover="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.borderColor='rgba(255, 255, 255, 0.2)'"
+                                         onmouseout="this.style.background='rgba(255, 255, 255, 0.05)'; this.style.borderColor='rgba(255, 255, 255, 0.1)'">
+                                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 16px;">
+                                            <div style="flex: 1;">
+                                                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                                                    <span class="badge" style="background: ${badgeColor}">${typeLabel}</span>
+                                                    <span style="color: rgba(255, 255, 255, 0.6); font-size: 12px;">${new Date(sub.submittedAt).toLocaleString()}</span>
+                                                </div>
+                                                ${sub.title ? `<h4 style="color: #ffffff; font-size: 16px; font-weight: 600; margin: 0 0 8px 0;">${sub.title}</h4>` : ''}
+                                                ${sub.brandName ? `<p style="color: rgba(255, 255, 255, 0.8); margin: 0 0 4px 0;"><strong>Brand:</strong> ${sub.brandName}</p>` : ''}
+                                                ${sub.rate ? `<p style="color: rgba(255, 255, 255, 0.8); margin: 0 0 4px 0;"><strong>Rate:</strong> $${sub.rate}</p>` : ''}
+                                                ${sub.platform ? `<p style="color: rgba(255, 255, 255, 0.8); margin: 0 0 4px 0;"><strong>Platform:</strong> ${sub.platform}</p>` : ''}
+                                                ${sub.description || sub.message ? `
+                                                    <div style="background: rgba(0, 0, 0, 0.2); padding: 12px; border-radius: 8px; margin-top: 12px;">
+                                                        <p style="color: rgba(255, 255, 255, 0.9); margin: 0; line-height: 1.6; white-space: pre-wrap;">${sub.description || sub.message}</p>
+                                                    </div>
+                                                ` : ''}
+                                                ${sub.steps ? `
+                                                    <div style="margin-top: 12px;">
+                                                        <p style="color: rgba(255, 255, 255, 0.7); font-size: 12px; margin: 0 0 4px 0;"><strong>Steps to reproduce:</strong></p>
+                                                        <p style="color: rgba(255, 255, 255, 0.8); margin: 0; white-space: pre-wrap;">${sub.steps}</p>
+                                                    </div>
+                                                ` : ''}
+                                            </div>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                                            <div style="color: rgba(255, 255, 255, 0.7); font-size: 14px;">
+                                                <strong>From:</strong> ${sub.userEmail || 'Anonymous'}
+                                            </div>
+                                            ${sub.userEmail ? `
+                                                <button 
+                                                    onclick="openReplyModal('${sub.userEmail.replace(/'/g, "\\'")}', '${sub.id}', '${typeLabel}', ${JSON.stringify(sub).replace(/'/g, "\\'").replace(/"/g, '&quot;')})"
+                                                    style="padding: 8px 16px; background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 8px; color: #ffffff; font-size: 13px; font-weight: 500; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.3s;"
+                                                    onmouseover="this.style.background='rgba(59, 130, 246, 0.25)'"
+                                                    onmouseout="this.style.background='rgba(59, 130, 246, 0.15)'"
+                                                >
+                                                    📧 Reply
+                                                </button>
+                                            ` : ''}
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
                     `;
                 } else {
                     submissionsEl.innerHTML = '<div class="empty-state">No submissions found</div>';
@@ -673,10 +1863,28 @@
             }
         }
 
+        function exportSubmissionsCSV() {
+            if (allSubmissionsData.length === 0) {
+                alert('No submissions data to export');
+                return;
+            }
+            
+            const headers = ['Type', 'Details', 'User Email', 'Submitted Date'];
+            const rows = allSubmissionsData.map(sub => [
+                sub.type || '',
+                sub.details || '',
+                sub.userEmail || '',
+                new Date(sub.submittedAt).toLocaleString()
+            ]);
+            
+            const csv = [headers.join(','), ...rows.map(row => row.map(cell => `"${cell}"`).join(','))].join('\n');
+            downloadCSV(csv, 'ora_submissions_' + new Date().toISOString().split('T')[0] + '.csv');
+        }
+
         async function loadAnalytics() {
             try {
                 const adminToken = localStorage.getItem('admin_token') || '';
-                const response = await fetch(`/api/admin/analytics?token=${adminToken}`);
+                const response = await fetch(`/api/admin?type=analytics&token=${adminToken}`);
                 const data = await response.json();
 
                 document.getElementById('totalUsers').textContent = data.totalUsers || 0;
@@ -684,26 +1892,27 @@
                 document.getElementById('subscriptionRevenue').textContent = `$${data.subscriptionRevenue?.toFixed(0) || 0}`;
                 document.getElementById('conversionRate').textContent = `${data.conversionRate?.toFixed(1) || 0}%`;
 
-                // Platform distribution
+                // Platform distribution with visual bars
                 const platformEl = document.getElementById('platformDistribution');
                 if (data.platformDistribution && Object.keys(data.platformDistribution).length > 0) {
+                    const maxCount = Math.max(...Object.values(data.platformDistribution));
                     platformEl.innerHTML = `
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Platform</th>
-                                    <th>Submissions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${Object.entries(data.platformDistribution).map(([platform, count]) => `
-                                    <tr>
-                                        <td>${platform}</td>
-                                        <td>${count}</td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
+                        <div style="display: flex; flex-direction: column; gap: 16px;">
+                            ${Object.entries(data.platformDistribution)
+                                .sort((a, b) => b[1] - a[1])
+                                .map(([platform, count]) => {
+                                    const percentage = maxCount > 0 ? (count / maxCount) * 100 : 0;
+                                    return `
+                                        <div style="display: flex; align-items: center; gap: 12px;">
+                                            <div style="flex: 0 0 120px; font-size: 14px; color: rgba(255, 255, 255, 0.8);">${platform}</div>
+                                            <div style="flex: 1; height: 24px; background: rgba(255, 255, 255, 0.05); border-radius: 12px; overflow: hidden; position: relative;">
+                                                <div style="height: 100%; width: ${percentage}%; background: rgba(249, 115, 22, 0.3); border-radius: 12px; transition: width 0.3s;"></div>
+                                            </div>
+                                            <div style="flex: 0 0 60px; text-align: right; font-size: 14px; font-weight: 600; color: #ffffff;">${count}</div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                        </div>
                     `;
                 } else {
                     platformEl.innerHTML = '<div class="empty-state">No platform data available</div>';
@@ -716,7 +1925,7 @@
         async function loadErrors() {
             try {
                 const adminToken = localStorage.getItem('admin_token') || '';
-                const response = await fetch(`/api/admin/errors?token=${adminToken}`);
+                const response = await fetch(`/api/admin?type=errors&token=${adminToken}`);
                 const data = await response.json();
 
                 document.getElementById('totalErrors').textContent = data.totalErrors || 0;
@@ -773,6 +1982,79 @@
                 loadAllData();
             }
         }, 30000);
+
+        // Email Modal Functions
+        function openEmailModal(userEmail = '') {
+            const modal = document.getElementById('emailModal');
+            const emailTo = document.getElementById('emailTo');
+            emailTo.value = userEmail;
+            modal.classList.add('active');
+        }
+
+        function closeEmailModal() {
+            const modal = document.getElementById('emailModal');
+            modal.classList.remove('active');
+            document.getElementById('emailForm').reset();
+            document.getElementById('emailSuccess').classList.remove('show');
+            document.getElementById('emailSuccess').textContent = '';
+        }
+
+        async function sendEmail(event) {
+            event.preventDefault();
+            
+            const to = document.getElementById('emailTo').value.trim();
+            const subject = document.getElementById('emailSubject').value.trim();
+            const message = document.getElementById('emailMessage').value.trim();
+            const successEl = document.getElementById('emailSuccess');
+
+            if (!to || !subject || !message) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            try {
+                const adminToken = localStorage.getItem('admin_token') || '';
+                const response = await fetch('/api/admin?type=send-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        token: adminToken,
+                        to: to,
+                        subject: subject,
+                        message: message,
+                        isHtml: false
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    successEl.textContent = 'Email sent successfully!';
+                    successEl.classList.add('show');
+                    document.getElementById('emailForm').reset();
+                    
+                    // Close modal after 2 seconds
+                    setTimeout(() => {
+                        closeEmailModal();
+                    }, 2000);
+                } else {
+                    alert('Failed to send email: ' + (data.error || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error sending email:', error);
+                alert('Failed to send email. Please try again.');
+            }
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', (e) => {
+            const modal = document.getElementById('emailModal');
+            if (e.target === modal) {
+                closeEmailModal();
+            }
+        });
     </script>
 
     <!-- Vercel Analytics -->
