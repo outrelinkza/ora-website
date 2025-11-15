@@ -1035,7 +1035,7 @@
                                 onmouseover="this.style.background='rgba(59, 130, 246, 0.25)'"
                                 onmouseout="this.style.background='rgba(59, 130, 246, 0.15)'"
                             >
-                                🔄 Refresh
+                                Refresh
                             </button>
                             <button 
                                 onclick="exportErrorsCSV()" 
@@ -2041,7 +2041,7 @@ ${err.stack}
                         </div>
                     `;
                 } else {
-                    errorsEl.innerHTML = '<div class="empty-state">No errors found. Great job! 🎉</div>';
+                    errorsEl.innerHTML = '<div class="empty-state">No errors found. Great job!</div>';
                 }
             } catch (error) {
                 console.error('Error loading errors:', error);
