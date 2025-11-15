@@ -3,98 +3,349 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OAuth Testing - ORA</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Admin Login - ORA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0A0B14;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Background Grid */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            opacity: 0.2;
+            background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0);
+            background-size: 24px 24px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            padding: 24px;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 12px 24px;
+            border-radius: 9999px;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(10, 11, 20, 0.9);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+        }
+
+        .nav-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #ffffff;
+            transition: opacity 0.3s;
+        }
+
+        .nav-logo:hover {
+            opacity: 0.8;
+        }
+
+        .nav-logo img {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            margin-right: 12px;
+        }
+
+        .nav-logo span {
+            font-size: 18px;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .nav-back {
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .nav-back:hover {
+            color: #ffffff;
+        }
+
+        /* Login Container */
+        .login-container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 440px;
+        }
+
+        .login-card {
+            padding: 48px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .login-logo {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            margin: 0 auto 24px;
+            display: block;
+        }
+
+        .login-header h1 {
+            font-family: 'Manrope', sans-serif;
+            font-size: 32px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .login-header p {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.6);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: rgba(249, 115, 22, 0.5);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 8px;
+            background: rgba(249, 115, 22, 0.15);
+            border: 1px solid rgba(249, 115, 22, 0.3);
+            border-radius: 12px;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .login-button:hover {
+            background: rgba(249, 115, 22, 0.25);
+            border-color: rgba(249, 115, 22, 0.5);
+        }
+
+        .login-button:active {
+            transform: scale(0.98);
+        }
+
+        .error-message {
+            padding: 12px 16px;
+            border-radius: 10px;
+            background: rgba(255, 59, 48, 0.1);
+            border: 1px solid rgba(255, 59, 48, 0.2);
+            color: #ff3b30;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .login-footer {
+            margin-top: 32px;
+            text-align: center;
+        }
+
+        .login-footer p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .login-footer a {
+            color: rgba(249, 115, 22, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .login-footer a:hover {
+            color: rgba(249, 115, 22, 1);
         }
     </style>
 </head>
-<body class="min-h-screen antialiased text-white bg-black">
-    <!-- Background Grid -->
-    <div class="fixed inset-0 opacity-20" style="background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0); background-size: 24px 24px;"></div>
-
-    <!-- Main Container -->
-    <div class="relative z-10 min-h-screen">
-        
-        <!-- Nav -->
-        <nav class="fixed top-0 left-0 right-0 z-50 px-6 py-6">
-            <div class="max-w-4xl mx-auto glass-effect rounded-full px-6 py-3">
-                <div class="flex items-center justify-between">
-                    <a href="/" class="flex items-center hover:opacity-80 transition-opacity">
-                        <div class="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg">
-                            <img src="Adobe Express - file-2.png" alt="ORA Logo" class="w-12 h-12 object-cover rounded-xl">
-                        </div>
-                        <span class="ml-3 text-lg font-semibold tracking-tight text-white font-sans">ORA</span>
-                    </a>
-                    <a href="/" class="text-sm font-medium hover:text-white transition-colors">← Back to Home</a>
-                </div>
+<body>
+    <!-- Nav -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-content">
+                <a href="/" class="nav-logo">
+                    <img src="Adobe Express - file-2.png" alt="ORA Logo">
+                    <span>ORA</span>
+                </a>
+                <a href="/" class="nav-back">← Back to Home</a>
             </div>
-        </nav>
+        </div>
+    </nav>
 
-        <!-- Content -->
-        <section class="pt-32 pb-20">
-            <div class="max-w-3xl mx-auto px-6">
-                <div class="glass-effect rounded-2xl p-12">
-                    <h1 class="text-4xl font-bold mb-2">OAuth Testing</h1>
-                    <p class="text-gray-400 mb-8">Google OAuth verification testing instructions</p>
-
-                    <div class="space-y-8">
-                        <!-- Direct OAuth URL -->
-                        <div>
-                            <h2 class="text-2xl font-semibold mb-4">Test OAuth Flow</h2>
-                            <div class="bg-gray-800 rounded-lg p-6 mb-4">
-                                <a href="https://accounts.google.com/o/oauth2/v2/auth?client_id=389124746401-70ht7non8183n0ags7m1mma8d0cumdb7.apps.googleusercontent.com&redirect_uri=https://myora.co/oauth/callback&response_type=code&scope=https://www.googleapis.com/auth/gmail.readonly%20https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile&access_type=offline&prompt=consent" 
-                                   target="_blank" 
-                                   class="inline-block w-full py-4 px-6 rounded-xl text-base font-semibold text-white border border-orange-500/30 hover:border-orange-500/50 transition-all duration-300 text-center" 
-                                   style="background: rgba(249, 115, 22, 0.15);">
-                                    Test OAuth Consent Screen
-                                </a>
-                            </div>
-                        </div>
-
-                        <!-- Test Account Requirements -->
-                        <div>
-                            <h2 class="text-2xl font-semibold mb-4">Test Account Requirements</h2>
-                            <div class="bg-gray-800 rounded-lg p-6">
-                                <ul class="space-y-2 text-gray-300">
-                                    <li>• Test account must be added in Google Cloud Console (OAuth consent screen → Test users)</li>
-                                    <li>• 2FA must be disabled on the test account</li>
-                                    <li>• Account must have Gmail access</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <!-- OAuth Scopes -->
-                        <div>
-                            <h2 class="text-2xl font-semibold mb-4">Requested Permissions</h2>
-                            <div class="bg-gray-800 rounded-lg p-6">
-                                <ul class="space-y-2 text-gray-300">
-                                    <li>• Gmail read-only access</li>
-                                    <li>• User email address</li>
-                                    <li>• Basic profile information</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <!-- Support -->
-                        <div>
-                            <h2 class="text-2xl font-semibold mb-4">Support</h2>
-                            <div class="bg-gray-800 rounded-lg p-4">
-                                <p class="text-gray-300">
-                                    <strong>Email:</strong> official.myora.co@outlook.com
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <!-- Login Container -->
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <img src="Adobe Express - file-2.png" alt="ORA Logo" class="login-logo">
+                <h1>Admin Login</h1>
+                <p>Enter your credentials to access the admin dashboard</p>
             </div>
-        </section>
+
+            <form class="login-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        placeholder="Enter admin password"
+                        required
+                        autocomplete="current-password"
+                    />
+                </div>
+
+                <div id="errorMessage" class="error-message"></div>
+
+                <button type="submit" class="login-button">Login</button>
+            </form>
+
+            <div class="login-footer">
+                <p>Need help? <a href="mailto:official.myora.co@outlook.com">Contact Support</a></p>
+            </div>
+        </div>
     </div>
+
+    <script>
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const password = document.getElementById('password').value;
+            const errorEl = document.getElementById('errorMessage');
+            const ADMIN_PASSWORD = 'ora_admin_2025';
+
+            // Hide error
+            errorEl.classList.remove('show');
+            errorEl.textContent = '';
+
+            if (password === ADMIN_PASSWORD) {
+                try {
+                    const response = await fetch('/api/admin/auth', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ password })
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        localStorage.setItem('admin_authenticated', 'true');
+                        localStorage.setItem('admin_token', data.token || ADMIN_PASSWORD);
+                        window.location.href = '/admin.html';
+                    } else {
+                        throw new Error('Authentication failed');
+                    }
+                } catch (error) {
+                    // Fallback: use password as token for local testing
+                    localStorage.setItem('admin_authenticated', 'true');
+                    localStorage.setItem('admin_token', ADMIN_PASSWORD);
+                    window.location.href = '/admin.html';
+                }
+            } else {
+                errorEl.textContent = 'Invalid password. Please try again.';
+                errorEl.classList.add('show');
+            }
+        }
+
+        // Check if already authenticated
+        if (localStorage.getItem('admin_authenticated') === 'true' && localStorage.getItem('admin_token')) {
+            window.location.href = '/admin.html';
+        }
+    </script>
+
+    <!-- Vercel Analytics -->
+    <script src="https://va.vercel-scripts.com/v1/script.js" defer></script>
+
+    <!-- Vercel Speed Insights -->
+    <script src="https://va.vercel-scripts.com/v1/speed-insights/script.js" defer></script>
 </body>
 </html>

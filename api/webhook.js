@@ -286,7 +286,7 @@ function mapStripeStatusToSupabase(stripeStatus) {
 function getPlanIdFromPriceId(priceId) {
   // Stripe Price IDs for each plan (from your backend)
   const PLAN_PRICE_IDS = {
-    'price_1SQ1FQAawVwKR3X2YD7Kddza': 'creator', // $14.99/month
+    'price_1SSzEbAawVwKR3X2nnKqmteT': 'creator', // $12.99/month
     'price_1SQ1FSAawVwKR3X2LEeBfKXt': 'pro',     // $24.99/month
     'price_1SQ1FUAawVwKR3X2AfwilFhS': 'premium', // $49.99/month
   };

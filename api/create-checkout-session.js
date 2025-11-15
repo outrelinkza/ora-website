@@ -7,7 +7,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 // Stripe Price IDs for each plan
 const PLAN_PRICE_IDS = {
-  creator: 'price_1SQ1FQAawVwKR3X2YD7Kddza', // $14.99/month - ORA Creator Plan
+  creator: 'price_1SSzEbAawVwKR3X2nnKqmteT', // $12.99/month - ORA Creator Plan
   pro: 'price_1SQ1FSAawVwKR3X2LEeBfKXt',     // $24.99/month - ORA Pro Plan
   premium: 'price_1SQ1FUAawVwKR3X2AfwilFhS',  // $49.99/month - ORA Premium Plan
 };

@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ORA Admin Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,105 +15,182 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0A0B14;
             color: #ffffff;
             min-height: 100vh;
             padding: 20px;
         }
 
+        /* Background Grid */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            opacity: 0.2;
+            background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0);
+            background-size: 24px 24px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .header h1 {
-            font-size: 28px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #FF6A00 0%, #FF8C42 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
+        /* Auth Section */
         .auth-section {
-            text-align: center;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            backdrop-filter: blur(10px);
+            max-width: 420px;
+            margin: 120px auto;
+            padding: 48px;
+            border-radius: 24px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            max-width: 400px;
-            margin: 100px auto;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            text-align: center;
+        }
+
+        .auth-section h2 {
+            font-family: 'Manrope', sans-serif;
+            font-size: 28px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .auth-section p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 32px;
         }
 
         .auth-section input {
             width: 100%;
-            padding: 12px;
-            margin: 10px 0;
+            padding: 14px 16px;
+            margin-bottom: 16px;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
+            border-radius: 12px;
             background: rgba(255, 255, 255, 0.05);
             color: #ffffff;
-            font-size: 14px;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .auth-section input:focus {
+            outline: none;
+            border-color: rgba(249, 115, 22, 0.5);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .auth-section input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
         }
 
         .auth-section button {
             width: 100%;
-            padding: 12px;
-            margin-top: 10px;
-            background: linear-gradient(135deg, #FF6A00 0%, #FF8C42 100%);
-            border: none;
-            border-radius: 8px;
+            padding: 14px;
+            margin-top: 8px;
+            background: rgba(249, 115, 22, 0.15);
+            border: 1px solid rgba(249, 115, 22, 0.3);
+            border-radius: 12px;
             color: #ffffff;
             font-weight: 600;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
             cursor: pointer;
-            font-size: 16px;
+            transition: all 0.3s;
         }
 
         .auth-section button:hover {
-            opacity: 0.9;
+            background: rgba(249, 115, 22, 0.25);
+            border-color: rgba(249, 115, 22, 0.5);
         }
 
+        .auth-error {
+            color: #ff3b30;
+            font-size: 14px;
+            margin-top: 12px;
+            display: none;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            padding: 24px 32px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+        }
+
+        .header h1 {
+            font-family: 'Manrope', sans-serif;
+            font-size: 32px;
+            font-weight: 600;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+
+        .header .logout-btn {
+            padding: 10px 20px;
+            background: rgba(255, 59, 48, 0.1);
+            border: 1px solid rgba(255, 59, 48, 0.2);
+            border-radius: 10px;
+            color: #ff3b30;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .header .logout-btn:hover {
+            background: rgba(255, 59, 48, 0.2);
+            border-color: rgba(255, 59, 48, 0.3);
+        }
+
+        /* Tabs */
         .tabs {
             display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
+            gap: 12px;
+            margin-bottom: 32px;
             flex-wrap: wrap;
         }
 
         .tab {
             padding: 12px 24px;
-            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.3s;
-            font-size: 14px;
-            font-weight: 600;
+            font-family: 'Inter', sans-serif;
         }
 
         .tab:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
         }
 
         .tab.active {
-            background: linear-gradient(135deg, #FF6A00 0%, #FF8C42 100%);
-            border-color: #FF6A00;
+            background: rgba(249, 115, 22, 0.15);
+            border-color: rgba(249, 115, 22, 0.3);
+            color: #ffffff;
         }
 
+        /* Content */
         .content {
             display: none;
         }
@@ -119,48 +199,65 @@
             display: block;
         }
 
+        /* Stats Grid */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
         }
 
         .stat-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 24px;
-            backdrop-filter: blur(10px);
+            padding: 28px;
+            border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
         }
 
         .stat-card h3 {
-            font-size: 14px;
-            color: #999;
+            font-size: 13px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.5);
             margin-bottom: 12px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            font-family: 'Inter', sans-serif;
         }
 
         .stat-card .value {
-            font-size: 32px;
-            font-weight: 700;
-            color: #FF6A00;
+            font-family: 'Manrope', sans-serif;
+            font-size: 36px;
+            font-weight: 600;
+            color: #ffffff;
             margin-bottom: 8px;
+            line-height: 1.2;
         }
 
         .stat-card .label {
-            font-size: 12px;
-            color: #999;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            font-family: 'Inter', sans-serif;
         }
 
+        /* Table Container */
         .table-container {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 24px;
-            backdrop-filter: blur(10px);
+            padding: 32px;
+            border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
             overflow-x: auto;
+        }
+
+        .table-container h3 {
+            font-family: 'Manrope', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 24px;
         }
 
         table {
@@ -169,75 +266,70 @@
         }
 
         th, td {
-            padding: 12px;
+            padding: 14px 16px;
             text-align: left;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         th {
             font-weight: 600;
-            color: #FF6A00;
-            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.7);
             font-size: 12px;
+            text-transform: uppercase;
             letter-spacing: 0.5px;
+            font-family: 'Inter', sans-serif;
         }
 
         td {
             color: #ffffff;
             font-size: 14px;
+            font-family: 'Inter', sans-serif;
         }
 
         tr:hover {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.03);
         }
 
+        /* Filter Bar */
         .filter-bar {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 12px;
+            margin-bottom: 24px;
             flex-wrap: wrap;
         }
 
         .filter-btn {
-            padding: 8px 16px;
-            background: rgba(255, 255, 255, 0.05);
+            padding: 10px 20px;
+            border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            cursor: pointer;
+            background: rgba(255, 255, 255, 0.03);
+            color: rgba(255, 255, 255, 0.7);
             font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
             transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
         }
 
         .filter-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
         }
 
         .filter-btn.active {
-            background: linear-gradient(135deg, #FF6A00 0%, #FF8C42 100%);
-            border-color: #FF6A00;
+            background: rgba(249, 115, 22, 0.15);
+            border-color: rgba(249, 115, 22, 0.3);
+            color: #ffffff;
         }
 
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #999;
-        }
-
-        .error {
-            background: rgba(255, 59, 48, 0.1);
-            border: 1px solid rgba(255, 59, 48, 0.3);
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 20px;
-            color: #ff3b30;
-        }
-
+        /* Badges */
         .badge {
             display: inline-block;
-            padding: 4px 12px;
-            border-radius: 12px;
+            padding: 6px 12px;
+            border-radius: 8px;
             font-size: 12px;
             font-weight: 600;
+            font-family: 'Inter', sans-serif;
         }
 
         .badge.rate {
@@ -250,17 +342,22 @@
             color: #ff3b30;
         }
 
-        .empty-state {
+        /* Loading & Error States */
+        .loading, .empty-state {
             text-align: center;
             padding: 60px 20px;
-            color: #999;
+            color: rgba(255, 255, 255, 0.5);
+            font-family: 'Inter', sans-serif;
         }
 
-        .empty-state svg {
-            width: 64px;
-            height: 64px;
-            margin-bottom: 16px;
-            opacity: 0.5;
+        .error {
+            padding: 16px;
+            border-radius: 12px;
+            background: rgba(255, 59, 48, 0.1);
+            border: 1px solid rgba(255, 59, 48, 0.2);
+            color: #ff3b30;
+            margin-bottom: 20px;
+            font-family: 'Inter', sans-serif;
         }
     </style>
 </head>
@@ -269,16 +366,17 @@
         <!-- Auth Section (shown when not authenticated) -->
         <div id="authSection" class="auth-section">
             <h2>Admin Login</h2>
+            <p>Enter your password to access the dashboard</p>
             <input type="password" id="adminPassword" placeholder="Enter admin password" />
             <button onclick="authenticate()">Login</button>
-            <p id="authError" style="color: #ff3b30; margin-top: 10px; display: none;"></p>
+            <p id="authError" class="auth-error"></p>
         </div>
 
         <!-- Main Dashboard (shown when authenticated) -->
         <div id="dashboard" style="display: none;">
             <div class="header">
                 <h1>ORA Admin Dashboard</h1>
-                <button onclick="logout()" style="padding: 8px 16px; background: rgba(255, 59, 48, 0.2); border: 1px solid rgba(255, 59, 48, 0.3); border-radius: 8px; color: #ff3b30; cursor: pointer;">Logout</button>
+                <button class="logout-btn" onclick="logout()">Logout</button>
             </div>
 
             <div class="tabs">
@@ -314,7 +412,7 @@
                 </div>
 
                 <div class="table-container">
-                    <h3 style="margin-bottom: 20px; color: #FF6A00;">Recent Activity</h3>
+                    <h3>Recent Activity</h3>
                     <div id="recentActivity">
                         <div class="loading">Loading...</div>
                     </div>
@@ -329,6 +427,7 @@
                     <div class="filter-btn" onclick="filterSubmissions('bugs')">Bug Reports</div>
                 </div>
                 <div class="table-container">
+                    <h3>Submissions</h3>
                     <div id="submissionsList">
                         <div class="loading">Loading...</div>
                     </div>
@@ -356,7 +455,7 @@
                     </div>
                 </div>
                 <div class="table-container">
-                    <h3 style="margin-bottom: 20px; color: #FF6A00;">Platform Distribution</h3>
+                    <h3>Platform Distribution</h3>
                     <div id="platformDistribution">
                         <div class="loading">Loading...</div>
                     </div>
@@ -384,7 +483,7 @@
                     </div>
                 </div>
                 <div class="table-container">
-                    <h3 style="margin-bottom: 20px; color: #FF6A00;">Recent Errors</h3>
+                    <h3>Recent Errors</h3>
                     <div id="errorsList">
                         <div class="loading">Loading...</div>
                     </div>
@@ -683,4 +782,3 @@
     <script src="https://va.vercel-scripts.com/v1/speed-insights/script.js" defer></script>
 </body>
 </html>
-

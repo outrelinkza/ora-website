@@ -6,7 +6,7 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const PLAN_PRICE_IDS = {
-  creator: 'price_1SQ1FQAawVwKR3X2YD7Kddza',
+  creator: 'price_1SSzEbAawVwKR3X2nnKqmteT',
   pro: 'price_1SQ1FSAawVwKR3X2LEeBfKXt',
   premium: 'price_1SQ1FUAawVwKR3X2AfwilFhS',
 };
